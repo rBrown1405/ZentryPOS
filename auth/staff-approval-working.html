@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zentry POS - Staff Approval Management</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="../js/base-url.js"></script>
+    <style>
+        .staff-approval-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .approval-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .approval-header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2rem;
+        }
+        
+        .approval-header p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+        
+        .pending-staff-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+        
+        .staff-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .staff-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .staff-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .staff-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .staff-position {
+            color: #6b7280;
+            font-size: 0.9rem;
+            text-transform: capitalize;
+        }
+        
+        .staff-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .staff-details {
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .detail-label {
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        .detail-value {
+            color: #1f2937;
+        }
+        
+        .business-info {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .business-name {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .business-address {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .approve-btn, .reject-btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .approve-btn {
+            background: #10b981;
+            color: white;
+        }
+        
+        .approve-btn:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+        
+        .reject-btn {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .reject-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+        
+        .no-pending {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+        
+        .no-pending-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .refresh-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+        
+        .refresh-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" id="backButton">
+        <span class="back-button-icon">←</span>
+        <span>Back to Dashboard</span>
+    </button>
+
+    <div class="animated-background">
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+    </div>
+
+    <div class="staff-approval-container">
+        <div class="approval-header">
+            <div class="logo-container">
+                <div class="logo">Z</div>
+            </div>
+            <h1>Staff Approval Management</h1>
+            <p>Review and approve new staff registration requests</p>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-number" id="pendingCount">0</div>
+                <div class="stat-label">Pending Requests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="approvedCount">0</div>
+                <div class="stat-label">Approved Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalStaff">0</div>
+                <div class="stat-label">Total Staff</div>
+            </div>
+        </div>
+
+        <button class="refresh-button" id="refreshButton">
+            🔄 Refresh Requests
+        </button>
+
+        <div id="pendingStaffContainer">
+            <div class="no-pending" id="noPendingMessage">
+                <div class="no-pending-icon">📝</div>
+                <h3>No Pending Requests</h3>
+                <p>All staff registration requests have been processed.</p>
+                <p><small>New requests will appear here automatically.</small></p>
+            </div>
+        </div>
+
+        <div class="pending-staff-grid" id="pendingStaffGrid">
+            <!-- Staff cards will be dynamically generated here -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Staff approval page loaded');
+            
+            // Set up back button
+            document.getElementById('backButton').addEventListener('click', function() {
+                navigateWithTransition('../index.html');
+            });
+            
+            // Set up refresh button
+            document.getElementById('refreshButton').addEventListener('click', function() {
+                loadPendingStaff();
+            });
+            
+            // Load initial data
+            loadPendingStaff();
+            updateStats();
+        });
+        
+        function loadPendingStaff() {
+            const staffRegistrations = JSON.parse(localStorage.getItem('staffRegistrations') || '[]');
+            const pendingStaff = staffRegistrations.filter(staff => staff.status === 'pending');
+            
+            const pendingStaffGrid = document.getElementById('pendingStaffGrid');
+            const noPendingMessage = document.getElementById('noPendingMessage');
+            
+            if (pendingStaff.length === 0) {
+                pendingStaffGrid.innerHTML = '';
+                noPendingMessage.style.display = 'block';
+            } else {
+                noPendingMessage.style.display = 'none';
+                pendingStaffGrid.innerHTML = pendingStaff.map(staff => createStaffCard(staff)).join('');
+                
+                // Add event listeners to action buttons
+                pendingStaffGrid.querySelectorAll('.approve-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const staffId = this.dataset.staffId;
+                        approveStaff(staffId);
+                    });
+                });
+                
+                pendingStaffGrid.querySelectorAll('.reject-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const staffId = this.dataset.staffId;
+                        rejectStaff(staffId);
+                    });
+                });
+            }
+            
+            updateStats();
+        }
+        
+        function createStaffCard(staff) {
+            const submittedDate = new Date(staff.submittedAt).toLocaleDateString();
+            const submittedTime = new Date(staff.submittedAt).toLocaleTimeString();
+            
+            return `
+                <div class="staff-card">
+                    <div class="staff-header">
+                        <div>
+                            <div class="staff-name">${staff.fullName}</div>
+                            <div class="staff-position">${staff.position}</div>
+                        </div>
+                        <div class="staff-status status-pending">Pending</div>
+                    </div>
+                    
+                    <div class="business-info">
+                        <div class="business-name">${staff.business.name}</div>
+                        <div class="business-address">${staff.business.address}</div>
+                        <div style="font-size: 0.8rem; color: #6b7280; margin-top: 0.5rem;">
+                            Code: ${staff.connectionCode}
+                        </div>
+                    </div>
+                    
+                    <div class="staff-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Email:</span>
+                            <span class="detail-value">${staff.email}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Phone:</span>
+                            <span class="detail-value">${staff.phone}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Applied:</span>
+                            <span class="detail-value">${submittedDate} at ${submittedTime}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="approve-btn" data-staff-id="${staff.id}">
+                            ✅ Approve
+                        </button>
+                        <button class="reject-btn" data-staff-id="${staff.id}">
+                            ❌ Reject
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function approveStaff(staffId) {
+            if (confirm('Are you sure you want to approve this staff member?')) {
+                const staffRegistrations = JSON.parse(localStorage.getItem('staffRegistrations') || '[]');
+                const staffIndex = staffRegistrations.findIndex(staff => staff.id === staffId);
+                
+                if (staffIndex !== -1) {
+                    staffRegistrations[staffIndex].status = 'approved';
+                    staffRegistrations[staffIndex].approvedAt = new Date().toISOString();
+                    localStorage.setItem('staffRegistrations', JSON.stringify(staffRegistrations));
+                    
+                    // Also add to approved staff list
+                    const approvedStaff = JSON.parse(localStorage.getItem('approvedStaff') || '[]');
+                    approvedStaff.push(staffRegistrations[staffIndex]);
+                    localStorage.setItem('approvedStaff', JSON.stringify(approvedStaff));
+                    
+                    alert('Staff member approved successfully!');
+                    loadPendingStaff();
+                }
+            }
+        }
+        
+        function rejectStaff(staffId) {
+            if (confirm('Are you sure you want to reject this staff member? This action cannot be undone.')) {
+                const staffRegistrations = JSON.parse(localStorage.getItem('staffRegistrations') || '[]');
+                const staffIndex = staffRegistrations.findIndex(staff => staff.id === staffId);
+                
+                if (staffIndex !== -1) {
+                    staffRegistrations[staffIndex].status = 'rejected';
+                    staffRegistrations[staffIndex].rejectedAt = new Date().toISOString();
+                    localStorage.setItem('staffRegistrations', JSON.stringify(staffRegistrations));
+                    
+                    alert('Staff member rejected.');
+                    loadPendingStaff();
+                }
+            }
+        }
+        
+        function updateStats() {
+            const staffRegistrations = JSON.parse(localStorage.getItem('staffRegistrations') || '[]');
+            const approvedStaff = JSON.parse(localStorage.getItem('approvedStaff') || '[]');
+            
+            const pendingCount = staffRegistrations.filter(staff => staff.status === 'pending').length;
+            const todayApproved = staffRegistrations.filter(staff => {
+                return staff.status === 'approved' && 
+                       new Date(staff.approvedAt || 0).toDateString() === new Date().toDateString();
+            }).length;
+            const totalStaff = approvedStaff.length;
+            
+            document.getElementById('pendingCount').textContent = pendingCount;
+            document.getElementById('approvedCount').textContent = todayApproved;
+            document.getElementById('totalStaff').textContent = totalStaff;
+        }
+        
+        // Navigation function
+        function navigateWithTransition(url) {
+            if (typeof resolvePath === 'function') {
+                window.location.href = resolvePath(url);
+            } else {
+                let finalUrl = url;
+                if (window.location.hostname === 'rbrown1405.github.io') {
+                    if (!url.startsWith('/ZentryPOS/') && !url.startsWith('http')) {
+                        if (url.startsWith('../')) {
+                            finalUrl = '/ZentryPOS/' + url.substring(3);
+                        } else {
+                            finalUrl = '/ZentryPOS/' + url;
+                        }
+                    }
+                }
+                window.location.href = finalUrl;
+            }
+        }
+    </script>
+</body>
+</html>

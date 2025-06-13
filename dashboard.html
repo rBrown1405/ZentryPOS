@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zentry POS - Demo Dashboard</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="js/base-url.js"></script>
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .dashboard-header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+        }
+        
+        .dashboard-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #667eea;
+        }
+        
+        .action-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .action-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        
+        .action-description {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .action-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .demo-notice {
+            background: rgba(255, 243, 205, 0.9);
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .demo-notice h3 {
+            color: #92400e;
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .demo-notice p {
+            color: #92400e;
+            margin: 0;
+        }
+        
+        .navigation-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav-link {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-background">
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+    </div>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <div class="logo-container">
+                <div class="logo">Z</div>
+            </div>
+            <h1>Welcome to Zentry POS</h1>
+            <p>Your all-in-one point of sale and business management solution</p>
+        </div>
+
+        <div class="demo-notice">
+            <h3>🚀 Demo Mode Active</h3>
+            <p>You're experiencing a demonstration of Zentry POS. All data is stored locally and will be reset when you refresh the page.</p>
+        </div>
+
+        <div class="navigation-bar">
+            <div class="nav-links">
+                <a href="auth/login.html" class="nav-link">🔑 Login System</a>
+                <a href="auth/account-selection-working.html" class="nav-link">📝 Registration Flow</a>
+                <a href="auth/staff-approval-working.html" class="nav-link">👥 Staff Management</a>
+                <a href="app/pos-interface.html" class="nav-link">💳 POS Interface</a>
+                <a href="app/menu-editor.html" class="nav-link">🍽️ Menu Editor</a>
+                <a href="app/floor-plan-editor.html" class="nav-link">🏢 Floor Plan</a>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="businessCount">0</div>
+                <div class="stat-label">Businesses Registered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="staffCount">0</div>
+                <div class="stat-label">Staff Members</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pendingCount">0</div>
+                <div class="stat-label">Pending Approvals</div>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <div class="action-card">
+                <span class="action-icon">🏢</span>
+                <h3 class="action-title">Register New Business</h3>
+                <p class="action-description">Set up a new business account with complete property management and staff oversight capabilities.</p>
+                <button class="action-button" onclick="navigateToRegistration()">Start Registration</button>
+            </div>
+
+            <div class="action-card">
+                <span class="action-icon">👥</span>
+                <h3 class="action-title">Join as Staff Member</h3>
+                <p class="action-description">Connect to an existing business using your employer's connection code and submit your staff application.</p>
+                <button class="action-button" onclick="navigateToStaffRegistration()">Join Team</button>
+            </div>
+
+            <div class="action-card">
+                <span class="action-icon">⚡</span>
+                <h3 class="action-title">POS System Demo</h3>
+                <p class="action-description">Experience the full point-of-sale interface with order management, payment processing, and receipt generation.</p>
+                <button class="action-button" onclick="navigateToPos()">Try POS</button>
+            </div>
+
+            <div class="action-card">
+                <span class="action-icon">🍽️</span>
+                <h3 class="action-title">Menu Management</h3>
+                <p class="action-description">Create and manage your restaurant menu with categories, items, pricing, and customization options.</p>
+                <button class="action-button" onclick="navigateToMenu()">Manage Menu</button>
+            </div>
+
+            <div class="action-card">
+                <span class="action-icon">🏗️</span>
+                <h3 class="action-title">Floor Plan Editor</h3>
+                <p class="action-description">Design your restaurant layout with drag-and-drop table management and seating arrangement tools.</p>
+                <button class="action-button" onclick="navigateToFloorPlan()">Edit Layout</button>
+            </div>
+
+            <div class="action-card">
+                <span class="action-icon">✅</span>
+                <h3 class="action-title">Staff Approval Center</h3>
+                <p class="action-description">Review and approve staff registration requests, manage team permissions and access levels.</p>
+                <button class="action-button" onclick="navigateToStaffApproval()">Manage Staff</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Dashboard loaded');
+            updateStats();
+        });
+
+        function updateStats() {
+            // Get registration data from localStorage
+            const businesses = JSON.parse(localStorage.getItem('businessRegistrations') || '[]');
+            const staff = JSON.parse(localStorage.getItem('staffRegistrations') || '[]');
+            const pendingStaff = staff.filter(s => s.status === 'pending');
+
+            document.getElementById('businessCount').textContent = businesses.length;
+            document.getElementById('staffCount').textContent = staff.length;
+            document.getElementById('pendingCount').textContent = pendingStaff.length;
+        }
+
+        function navigateToRegistration() {
+            navigateWithTransition('auth/account-selection-working.html');
+        }
+
+        function navigateToStaffRegistration() {
+            navigateWithTransition('auth/staff-registration-working.html');
+        }
+
+        function navigateToPos() {
+            navigateWithTransition('app/pos-interface.html');
+        }
+
+        function navigateToMenu() {
+            navigateWithTransition('app/menu-editor.html');
+        }
+
+        function navigateToFloorPlan() {
+            navigateWithTransition('app/floor-plan-editor.html');
+        }
+
+        function navigateToStaffApproval() {
+            navigateWithTransition('auth/staff-approval-working.html');
+        }
+
+        function navigateWithTransition(url) {
+            if (typeof resolvePath === 'function') {
+                window.location.href = resolvePath(url);
+            } else {
+                let finalUrl = url;
+                if (window.location.hostname === 'rbrown1405.github.io') {
+                    if (!url.startsWith('/ZentryPOS/') && !url.startsWith('http')) {
+                        finalUrl = '/ZentryPOS/' + url;
+                    }
+                }
+                window.location.href = finalUrl;
+            }
+        }
+    </script>
+</body>
+</html>

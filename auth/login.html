@@ -20,8 +20,7 @@
                 return null; // For demo purposes
             }
         }
-    </script>
-    <script src="login-demo.js"></script>
+    </script>    <script src="login.js">    </script>    <script src="login.js"></script>
 </head>
 <body>
     <div class="animated-background">
@@ -88,9 +87,54 @@
                     <span class="button-text">New Business / Staff Registration</span>
                     <span class="button-icon">+</span>
                 </button>
-                <p class="registration-hint">Create a new business account or register as staff member</p>            </div>
-        </div>    </div>    
-    <!-- Only include working scripts for the demo -->
-    <script src="login-demo.js"></script>
+                <p class="registration-hint">Create a new business account or register as staff member</p>            </div>        </div>    </div>    
+    <!-- Use proper login functionality instead of demo -->
+    <script>
+        // Initialize login functionality after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const text = this.textContent.toLowerCase();
+                    let tabName;
+                    if (text.includes('staff')) {
+                        tabName = 'staff';
+                    } else if (text.includes('company')) {
+                        tabName = 'company';
+                    } else if (text.includes('super') || text.includes('admin')) {
+                        tabName = 'superadmin';
+                    }
+                    if (tabName) {
+                        switchLoginTab(tabName);
+                    }
+                });
+            });
+            
+            // Login button handlers
+            document.getElementById('staffLoginButton')?.addEventListener('click', handleStaffLogin);
+            document.getElementById('companyLoginButton')?.addEventListener('click', handleCompanyLogin);
+            document.getElementById('superAdminLoginButton')?.addEventListener('click', handleSuperAdminLogin);
+            
+            // Help and registration buttons
+            document.getElementById('helpButton')?.addEventListener('click', function() {
+                navigateWithTransition('help.html');
+            });
+            
+            document.getElementById('registrationButton')?.addEventListener('click', function() {
+                navigateWithTransition('account-selection-working.html');
+            });
+        });
+        
+        // Show error messages
+        function showError(message) {
+            alert(message); // In production, you'd use a proper notification system
+        }
+        
+        // Show success messages
+        function showSuccess(message) {
+            alert(message); // In production, you'd use a proper notification system
+        }
+    </script>
 </body>
 </html>
