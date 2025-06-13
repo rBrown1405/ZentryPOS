@@ -10,7 +10,19 @@ class AppIntegration {
     }
 
     /**
-     * Initialize API Manager with proper URL
+     *        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${colors[type] || colors.info};
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            font-weight: 500;
+            max-width: 400px;
+        `;PI Manager with proper URL
      */
     initializeApiManager() {
         // Determine API URL based on environment
@@ -245,11 +257,11 @@ class AppIntegration {
             info: '#3b82f6'
         };
         
-        notification.style.cssText = 
+        notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: {colors[type] || colors.info};
+            background: ${colors[type] || colors.info};
             color: white;
             padding: 1rem 1.5rem;
             border-radius: 8px;
@@ -257,7 +269,7 @@ class AppIntegration {
             z-index: 10000;
             font-weight: 500;
             max-width: 400px;
-        ;
+        `;
         notification.textContent = message;
         document.body.appendChild(notification);
         
@@ -269,3 +281,176 @@ class AppIntegration {
 
 // Global instance
 window.appIntegration = new AppIntegration();
+
+/**
+ * Global Login Handler Functions
+ * These functions are called directly from HTML onclick handlers
+ */
+
+/**
+ * Handle staff login
+ */
+async function handleStaffLogin() {
+    try {
+        const staffId = document.getElementById('staffId')?.value?.trim();
+        
+        if (!staffId) {
+            window.appIntegration.showNotification('Please enter your Staff ID', 'error');
+            return;
+        }
+        
+        // Show loading state
+        const button = document.getElementById('staffLoginButton');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<span class="button-text">Signing In...</span>';
+        button.disabled = true;
+        
+        try {
+            const response = await window.appIntegration.login({ staffId }, 'staff');
+            
+            window.appIntegration.showNotification('Login successful! Redirecting...', 'success');
+            
+            // Redirect based on role
+            setTimeout(() => {
+                window.appIntegration.redirectToDashboard();
+            }, 1500);
+            
+        } catch (error) {
+            console.error('Staff login error:', error);
+            window.appIntegration.showNotification('Login failed. Please check your Staff ID.', 'error');
+        } finally {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }
+        
+    } catch (error) {
+        console.error('Staff login handler error:', error);
+        window.appIntegration.showNotification('An error occurred during login', 'error');
+    }
+}
+
+/**
+ * Handle company login
+ */
+async function handleCompanyLogin() {
+    try {
+        const businessId = document.getElementById('businessId')?.value?.trim();
+        
+        if (!businessId) {
+            window.appIntegration.showNotification('Please enter your Business ID', 'error');
+            return;
+        }
+        
+        // Show loading state
+        const button = document.getElementById('companyLoginButton');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<span class="button-text">Signing In...</span>';
+        button.disabled = true;
+        
+        try {
+            const response = await window.appIntegration.login({ 
+                email: businessId, 
+                businessId 
+            }, 'company');
+            
+            window.appIntegration.showNotification('Login successful! Redirecting...', 'success');
+            
+            // Redirect to admin dashboard
+            setTimeout(() => {
+                window.appIntegration.navigateTo('../admin/dashboard.html');
+            }, 1500);
+            
+        } catch (error) {
+            console.error('Company login error:', error);
+            window.appIntegration.showNotification('Login failed. Please check your Business ID.', 'error');
+        } finally {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }
+        
+    } catch (error) {
+        console.error('Company login handler error:', error);
+        window.appIntegration.showNotification('An error occurred during login', 'error');
+    }
+}
+
+/**
+ * Handle super admin login
+ */
+async function handleSuperAdminLogin() {
+    try {
+        const adminUsername = document.getElementById('adminUsername')?.value?.trim();
+        const adminPassword = document.getElementById('adminPassword')?.value?.trim();
+        
+        if (!adminUsername || !adminPassword) {
+            window.appIntegration.showNotification('Please enter both username and password', 'error');
+            return;
+        }
+        
+        // Show loading state
+        const button = document.getElementById('superAdminLoginButton');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<span class="button-text">Signing In...</span>';
+        button.disabled = true;
+        
+        try {
+            const response = await window.appIntegration.login({ 
+                adminKey: adminUsername + ':' + adminPassword,
+                username: adminUsername,
+                password: adminPassword 
+            }, 'superadmin');
+            
+            window.appIntegration.showNotification('Super Admin login successful! Redirecting...', 'success');
+            
+            // Redirect to admin dashboard
+            setTimeout(() => {
+                window.appIntegration.navigateTo('../admin/dashboard.html');
+            }, 1500);
+            
+        } catch (error) {
+            console.error('Super admin login error:', error);
+            window.appIntegration.showNotification('Super Admin login failed. Please check your credentials.', 'error');
+        } finally {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }
+        
+    } catch (error) {
+        console.error('Super admin login handler error:', error);
+        window.appIntegration.showNotification('An error occurred during login', 'error');
+    }
+}
+
+/**
+ * Switch between login tabs
+ */
+function switchLoginTab(tabName) {
+    // Hide all tab contents
+    const tabContents = document.querySelectorAll('.login-tab-content');
+    tabContents.forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Remove active class from all tab buttons
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(button => {
+        button.classList.remove('active');
+    });
+    
+    // Show selected tab content
+    const targetTab = document.getElementById(tabName + 'Login');
+    if (targetTab) {
+        targetTab.classList.add('active');
+    }
+    
+    // Activate corresponding tab button
+    const tabButton = Array.from(tabButtons).find(button => {
+        const text = button.textContent.toLowerCase();
+        return text.includes(tabName) || 
+               (tabName === 'superadmin' && (text.includes('super') || text.includes('admin')));
+    });
+    
+    if (tabButton) {
+        tabButton.classList.add('active');
+    }
+}
