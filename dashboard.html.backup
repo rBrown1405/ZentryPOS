@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zentry POS - Dashboard</title>
+    <title>Zentry POS - Demo Dashboard</title>
     <link rel="stylesheet" href="styles/main.css">
-    <script src="js/base-url.js"></script>`n    <script src="assets/js/api-manager.js"></script>`n    <script src="js/app-integration.js"></script>
+    <script src="js/base-url.js"></script>
     <style>
         .dashboard-container {
             max-width: 1200px;
