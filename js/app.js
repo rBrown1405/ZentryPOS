@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize feature cards interactions
     initializeFeatureCards();
+    
+    // Initialize navigation with base URL support
+    initializeNavigation();
 });
 
 function initializeAnimations() {
@@ -102,6 +105,32 @@ function initializeFeatureCards() {
 // Utility function for smooth navigation (if navigation.js is not loaded)
 if (typeof navigateWithTransition === 'undefined') {
     function navigateWithTransition(url) {
-        window.location.href = url;
+        if (typeof resolvePath === 'function') {
+            window.location.href = resolvePath(url);
+        } else {
+            window.location.href = url;
+        }
     }
+}
+
+// Initialize navigation with correct base URL paths
+function initializeNavigation() {
+    // Replace direct links with base URL paths
+    const startButton = document.querySelector('.start-button.primary');
+    if (startButton) {
+        startButton.removeAttribute('onclick');
+        startButton.addEventListener('click', function() {
+            navigateTo('auth/login.html');
+        });
+    }
+    
+    // Find and update all relevant navigation links
+    document.querySelectorAll('a[href]:not([href^="http"]):not([href^="#"]):not([href^="mailto:"])').forEach(link => {
+        const originalHref = link.getAttribute('href');
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            navigateTo(originalHref);
+        });
+        link.setAttribute('href', '#');
+    });
 }
