@@ -422,6 +422,49 @@ async function handleSuperAdminLogin() {
 }
 
 /**
+ * Handle help button click
+ */
+function handleHelpClick() {
+    try {
+        // For now, show a simple alert. In production, you'd navigate to a help page
+        if (window.appIntegration) {
+            window.appIntegration.showNotification('Help system coming soon! Contact your administrator for assistance.', 'info');
+        } else {
+            alert('Help system coming soon! Contact your administrator for assistance.');
+        }
+    } catch (error) {
+        console.error('Help click error:', error);
+        alert('Help system temporarily unavailable.');
+    }
+}
+
+/**
+ * Handle registration button click
+ */
+function handleRegistrationClick() {
+    try {
+        // Navigate to account selection page
+        if (window.appIntegration && typeof window.appIntegration.navigateTo === 'function') {
+            window.appIntegration.navigateTo('auth/account-selection-working.html');
+        } else {
+            // Fallback navigation
+            let baseUrl = '';
+            if (window.location.hostname === 'rbrown1405.github.io') {
+                baseUrl = '/ZentryPOS';
+            }
+            window.location.href = baseUrl + '/auth/account-selection-working.html';
+        }
+    } catch (error) {
+        console.error('Registration click error:', error);
+        if (window.appIntegration) {
+            window.appIntegration.showNotification('Registration page temporarily unavailable.', 'error');
+        } else {
+            alert('Registration page temporarily unavailable.');
+        }
+    }
+}
+
+/**
  * Switch between login tabs
  */
 function switchLoginTab(tabName) {

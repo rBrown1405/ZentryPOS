@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Zentry POS - Login</title>
-      <!-- Backend Integration Scripts -->
-    <script src="../assets/js/api-manager.js"></script>
-    <script src="../js/app-integration.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Zentry POS - Login</title>    <!-- Backend Integration Scripts -->
+    <script src="../assets/js/api-manager.js" onerror="console.warn('API Manager failed to load - using fallback mode')"></script>
+    <script src="../js/app-integration.js" onerror="console.warn('App Integration failed to load - using fallback mode')"></script>
     <link rel="stylesheet" href="../styles/main.css">
     <!-- Include both scripts for compatibility -->
-    <script src="../js/base-url.js"></script>
+    <script src="../js/base-url.js" onerror="console.warn('Base URL script failed to load')"></script>
 </head>
 <body>
     <div class="animated-background">
@@ -66,17 +65,96 @@
                 <p class="input-hint" style="margin-top: 10px; font-size: 12px; color: #666;">
                     Super Admin has global access to all businesses and properties
                 </p>
-            </div>            <div class="additional-options">
-                <button class="help-button" id="helpButton">
+            </div>            <div class="additional-options">                <button class="help-button" id="helpButton" onclick="handleHelpClick()">
                     <span class="button-3d">Need Help?</span>
                 </button>
-                <button class="new-user-button" id="registrationButton">
+                <button class="new-user-button" id="registrationButton" onclick="handleRegistrationClick()">
                     <span class="button-text">New Business / Staff Registration</span>
                     <span class="button-icon">+</span>
                 </button>
                 <p class="registration-hint">Create a new business account or register as staff member</p>            </div>        </div>    </div>    
-    <!-- Use proper login functionality instead of demo -->
-    <script>
+    <!-- Use proper login functionality instead of demo -->    <script>
+        // Fallback functions in case app-integration.js doesn't load
+        window.fallbackMode = false;
+        
+        // Check if app integration loaded after a delay
+        setTimeout(function() {
+            if (typeof handleStaffLogin === 'undefined') {
+                console.warn('App integration not loaded - activating fallback mode');
+                window.fallbackMode = true;
+                
+                // Create fallback login handlers
+                window.handleStaffLogin = function() {
+                    const staffId = document.getElementById('staffId')?.value?.trim();
+                    if (!staffId) {
+                        alert('Please enter your Staff ID');
+                        return;
+                    }
+                    alert('Fallback mode: Staff login with ID: ' + staffId + '\n\nThis would normally authenticate and redirect to the POS interface.');
+                };
+                
+                window.handleCompanyLogin = function() {
+                    const businessId = document.getElementById('businessId')?.value?.trim();
+                    if (!businessId) {
+                        alert('Please enter your Business ID');
+                        return;
+                    }
+                    alert('Fallback mode: Company login with Business ID: ' + businessId + '\n\nThis would normally authenticate and redirect to the admin dashboard.');
+                };
+                
+                window.handleSuperAdminLogin = function() {
+                    const username = document.getElementById('adminUsername')?.value?.trim();
+                    const password = document.getElementById('adminPassword')?.value?.trim();
+                    if (!username || !password) {
+                        alert('Please enter both username and password');
+                        return;
+                    }
+                    alert('Fallback mode: Super Admin login\n\nThis would normally authenticate and redirect to the super admin dashboard.');
+                };
+                
+                window.handleHelpClick = function() {
+                    alert('Help system coming soon!\n\nContact your administrator for assistance.');
+                };
+                
+                window.handleRegistrationClick = function() {
+                    alert('Registration system coming soon!\n\nContact your administrator to set up new accounts.');
+                };
+                
+                window.switchLoginTab = function(tabName) {
+                    // Hide all tab contents
+                    const tabContents = document.querySelectorAll('.login-tab-content');
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Remove active class from all tab buttons
+                    const tabButtons = document.querySelectorAll('.tab-button');
+                    tabButtons.forEach(button => {
+                        button.classList.remove('active');
+                    });
+                    
+                    // Show selected tab content
+                    const targetTab = document.getElementById(tabName + 'Login');
+                    if (targetTab) {
+                        targetTab.classList.add('active');
+                    }
+                    
+                    // Activate corresponding tab button
+                    const tabButton = Array.from(tabButtons).find(button => {
+                        const text = button.textContent.toLowerCase();
+                        return text.includes(tabName) || 
+                               (tabName === 'superadmin' && (text.includes('super') || text.includes('admin')));
+                    });
+                    
+                    if (tabButton) {
+                        tabButton.classList.add('active');
+                    }
+                };
+                
+                console.log('Fallback functions activated');
+            }
+        }, 1000);
+        
         // Initialize login functionality after DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             // Tab switching functionality
@@ -93,34 +171,36 @@
                         tabName = 'superadmin';
                     }
                     if (tabName) {
-                        switchLoginTab(tabName);
+                        if (typeof switchLoginTab === 'function') {
+                            switchLoginTab(tabName);
+                        } else {
+                            console.warn('switchLoginTab function not available');
+                        }
                     }
                 });
             });
             
-            // Login button handlers
-            document.getElementById('staffLoginButton')?.addEventListener('click', handleStaffLogin);
-            document.getElementById('companyLoginButton')?.addEventListener('click', handleCompanyLogin);
-            document.getElementById('superAdminLoginButton')?.addEventListener('click', handleSuperAdminLogin);
-            
-            // Help and registration buttons
-            document.getElementById('helpButton')?.addEventListener('click', function() {
-                navigateWithTransition('help.html');
-            });
-            
-            document.getElementById('registrationButton')?.addEventListener('click', function() {
-                navigateWithTransition('account-selection-working.html');
-            });
+            // Note: Login buttons use onclick handlers defined in HTML
+            // Help and registration buttons use onclick handlers defined in HTML
+            console.log('Login page initialized successfully');
         });
         
-        // Show error messages
+        // Show error messages (fallback for when appIntegration is not available)
         function showError(message) {
-            alert(message); // In production, you'd use a proper notification system
+            if (window.appIntegration && typeof window.appIntegration.showNotification === 'function') {
+                window.appIntegration.showNotification(message, 'error');
+            } else {
+                alert(message);
+            }
         }
         
-        // Show success messages
+        // Show success messages (fallback for when appIntegration is not available)
         function showSuccess(message) {
-            alert(message); // In production, you'd use a proper notification system
+            if (window.appIntegration && typeof window.appIntegration.showNotification === 'function') {
+                window.appIntegration.showNotification(message, 'success');
+            } else {
+                alert(message);
+            }
         }
     </script>
 </body>

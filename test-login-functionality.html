@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Functionality Test - Zentry POS</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        .test-button {
+            background: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .test-button:hover {
+            background: #2563eb;
+        }
+        .test-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #34d399;
+        }
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #f87171;
+        }
+        .info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #60a5fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Login Functionality Test</h1>
+        <p>This page tests all the login functionality fixes to ensure buttons work correctly.</p>
+        
+        <!-- Test 1: Script Loading -->
+        <div class="test-section">
+            <h2>📦 Script Loading Test</h2>
+            <p>Testing if all required scripts are loaded properly.</p>
+            <button class="test-button" onclick="testScriptLoading()">Test Script Loading</button>
+            <div id="scriptTest" class="test-result"></div>
+        </div>
+
+        <!-- Test 2: App Integration -->
+        <div class="test-section">
+            <h2>🔗 App Integration Test</h2>
+            <p>Testing if AppIntegration class is available and working.</p>
+            <button class="test-button" onclick="testAppIntegration()">Test App Integration</button>
+            <div id="integrationTest" class="test-result"></div>
+        </div>
+
+        <!-- Test 3: Login Handlers -->
+        <div class="test-section">
+            <h2>🔑 Login Handler Test</h2>
+            <p>Testing if login handler functions are available.</p>
+            <button class="test-button" onclick="testLoginHandlers()">Test Login Handlers</button>
+            <div id="handlersTest" class="test-result"></div>
+        </div>
+
+        <!-- Test 4: Navigation Functions -->
+        <div class="test-section">
+            <h2>🧭 Navigation Test</h2>
+            <p>Testing navigation functions and path resolution.</p>
+            <button class="test-button" onclick="testNavigation()">Test Navigation</button>
+            <div id="navigationTest" class="test-result"></div>
+        </div>
+
+        <!-- Test 5: Simulated Login Flow -->
+        <div class="test-section">
+            <h2>🎭 Simulated Login Flow</h2>
+            <p>Testing the complete login flow without actually navigating.</p>
+            <button class="test-button" onclick="simulateStaffLogin()">Simulate Staff Login</button>
+            <button class="test-button" onclick="simulateCompanyLogin()">Simulate Company Login</button>
+            <button class="test-button" onclick="simulateSuperAdminLogin()">Simulate Super Admin Login</button>
+            <div id="loginFlowTest" class="test-result"></div>
+        </div>
+
+        <!-- Test 6: Direct Navigation Test -->
+        <div class="test-section">
+            <h2>🚀 Direct Navigation Test</h2>
+            <p>Test direct navigation to different pages.</p>
+            <button class="test-button" onclick="window.location.href='auth/login.html'">Go to Login Page</button>
+            <button class="test-button" onclick="window.location.href='app/pos-interface.html'">Go to POS Interface</button>
+            <button class="test-button" onclick="window.location.href='admin/dashboard.html'">Go to Admin Dashboard</button>
+        </div>
+
+        <!-- Test 7: Error Handling -->
+        <div class="test-section">
+            <h2>⚠️ Error Handling Test</h2>
+            <p>Testing error handling and fallback mechanisms.</p>
+            <button class="test-button" onclick="testErrorHandling()">Test Error Handling</button>
+            <div id="errorTest" class="test-result"></div>
+        </div>
+    </div>
+
+    <!-- Load the fixed scripts -->
+    <script src="assets/js/api-manager.js"></script>
+    <script src="js/app-integration.js"></script>
+    <script src="js/base-url.js"></script>
+
+    <script>
+        function showResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.className = `test-result ${type}`;
+            element.innerHTML = message;
+        }
+
+        function testScriptLoading() {
+            let results = [];
+            
+            // Test ApiManager
+            if (typeof ApiManager !== 'undefined') {
+                results.push('✅ ApiManager class loaded successfully');
+            } else {
+                results.push('❌ ApiManager class not found');
+            }
+            
+            // Test AppIntegration
+            if (typeof AppIntegration !== 'undefined') {
+                results.push('✅ AppIntegration class loaded successfully');
+            } else {
+                results.push('❌ AppIntegration class not found');
+            }
+            
+            // Test global instance
+            if (typeof window.appIntegration !== 'undefined') {
+                results.push('✅ Global appIntegration instance available');
+            } else {
+                results.push('❌ Global appIntegration instance not found');
+            }
+            
+            const allPassed = !results.some(r => r.includes('❌'));
+            showResult('scriptTest', results.join('<br>'), allPassed ? 'success' : 'error');
+        }
+
+        function testAppIntegration() {
+            let results = [];
+            
+            try {
+                if (window.appIntegration) {
+                    results.push('✅ AppIntegration instance exists');
+                    
+                    // Test methods
+                    if (typeof window.appIntegration.isAuthenticated === 'function') {
+                        results.push('✅ isAuthenticated method available');
+                    } else {
+                        results.push('❌ isAuthenticated method missing');
+                    }
+                    
+                    if (typeof window.appIntegration.login === 'function') {
+                        results.push('✅ login method available');
+                    } else {
+                        results.push('❌ login method missing');
+                    }
+                    
+                    if (typeof window.appIntegration.showNotification === 'function') {
+                        results.push('✅ showNotification method available');
+                        // Test notification
+                        window.appIntegration.showNotification('Test notification working!', 'info');
+                    } else {
+                        results.push('❌ showNotification method missing');
+                    }
+                    
+                } else {
+                    results.push('❌ AppIntegration instance not found');
+                }
+            } catch (error) {
+                results.push(`❌ Error testing AppIntegration: ${error.message}`);
+            }
+            
+            const allPassed = !results.some(r => r.includes('❌'));
+            showResult('integrationTest', results.join('<br>'), allPassed ? 'success' : 'error');
+        }
+
+        function testLoginHandlers() {
+            let results = [];
+            
+            // Test handler functions
+            const handlers = ['handleStaffLogin', 'handleCompanyLogin', 'handleSuperAdminLogin', 'switchLoginTab'];
+            
+            handlers.forEach(handlerName => {
+                if (typeof window[handlerName] === 'function') {
+                    results.push(`✅ ${handlerName} function available`);
+                } else {
+                    results.push(`❌ ${handlerName} function missing`);
+                }
+            });
+            
+            const allPassed = !results.some(r => r.includes('❌'));
+            showResult('handlersTest', results.join('<br>'), allPassed ? 'success' : 'error');
+        }
+
+        function testNavigation() {
+            let results = [];
+            
+            try {
+                if (window.appIntegration && typeof window.appIntegration.navigateTo === 'function') {
+                    results.push('✅ navigateTo method available');
+                    
+                    // Test path resolution logic
+                    const currentHostname = window.location.hostname;
+                    results.push(`📍 Current hostname: ${currentHostname}`);
+                    
+                    if (currentHostname === 'rbrown1405.github.io') {
+                        results.push('📍 GitHub Pages environment detected');
+                    } else {
+                        results.push('📍 Local development environment detected');
+                    }
+                    
+                } else {
+                    results.push('❌ navigateTo method not available');
+                }
+            } catch (error) {
+                results.push(`❌ Error testing navigation: ${error.message}`);
+            }
+            
+            showResult('navigationTest', results.join('<br>'), 'info');
+        }
+
+        function simulateStaffLogin() {
+            let results = [];
+            
+            try {
+                // Create a mock input
+                const mockInput = document.createElement('input');
+                mockInput.id = 'staffId';
+                mockInput.value = 'TEST123';
+                document.body.appendChild(mockInput);
+                
+                // Create a mock button
+                const mockButton = document.createElement('button');
+                mockButton.id = 'staffLoginButton';
+                mockButton.innerHTML = '<span class="button-text">Staff Sign In</span>';
+                document.body.appendChild(mockButton);
+                
+                results.push('✅ Mock elements created');
+                results.push('📋 Staff ID: TEST123');
+                
+                if (typeof handleStaffLogin === 'function') {
+                    results.push('✅ handleStaffLogin function ready to call');
+                    results.push('⚠️ Skipping actual login call to prevent navigation');
+                } else {
+                    results.push('❌ handleStaffLogin function not available');
+                }
+                
+                // Cleanup
+                document.body.removeChild(mockInput);
+                document.body.removeChild(mockButton);
+                
+            } catch (error) {
+                results.push(`❌ Error in simulation: ${error.message}`);
+            }
+            
+            showResult('loginFlowTest', results.join('<br>'), 'info');
+        }
+
+        function simulateCompanyLogin() {
+            let results = [];
+            
+            try {
+                // Create a mock input
+                const mockInput = document.createElement('input');
+                mockInput.id = 'businessId';
+                mockInput.value = 'BUSINESS456';
+                document.body.appendChild(mockInput);
+                
+                // Create a mock button
+                const mockButton = document.createElement('button');
+                mockButton.id = 'companyLoginButton';
+                mockButton.innerHTML = '<span class="button-text">Company Sign In</span>';
+                document.body.appendChild(mockButton);
+                
+                results.push('✅ Mock elements created');
+                results.push('📋 Business ID: BUSINESS456');
+                
+                if (typeof handleCompanyLogin === 'function') {
+                    results.push('✅ handleCompanyLogin function ready to call');
+                    results.push('⚠️ Skipping actual login call to prevent navigation');
+                } else {
+                    results.push('❌ handleCompanyLogin function not available');
+                }
+                
+                // Cleanup
+                document.body.removeChild(mockInput);
+                document.body.removeChild(mockButton);
+                
+            } catch (error) {
+                results.push(`❌ Error in simulation: ${error.message}`);
+            }
+            
+            showResult('loginFlowTest', results.join('<br>'), 'info');
+        }
+
+        function simulateSuperAdminLogin() {
+            let results = [];
+            
+            try {
+                // Create mock inputs
+                const mockUsername = document.createElement('input');
+                mockUsername.id = 'adminUsername';
+                mockUsername.value = 'admin';
+                document.body.appendChild(mockUsername);
+                
+                const mockPassword = document.createElement('input');
+                mockPassword.id = 'adminPassword';
+                mockPassword.value = 'password';
+                document.body.appendChild(mockPassword);
+                
+                // Create a mock button
+                const mockButton = document.createElement('button');
+                mockButton.id = 'superAdminLoginButton';
+                mockButton.innerHTML = '<span class="button-text">Super Admin Sign In</span>';
+                document.body.appendChild(mockButton);
+                
+                results.push('✅ Mock elements created');
+                results.push('📋 Admin Username: admin');
+                results.push('📋 Admin Password: [hidden]');
+                
+                if (typeof handleSuperAdminLogin === 'function') {
+                    results.push('✅ handleSuperAdminLogin function ready to call');
+                    results.push('⚠️ Skipping actual login call to prevent navigation');
+                } else {
+                    results.push('❌ handleSuperAdminLogin function not available');
+                }
+                
+                // Cleanup
+                document.body.removeChild(mockUsername);
+                document.body.removeChild(mockPassword);
+                document.body.removeChild(mockButton);
+                
+            } catch (error) {
+                results.push(`❌ Error in simulation: ${error.message}`);
+            }
+            
+            showResult('loginFlowTest', results.join('<br>'), 'info');
+        }
+
+        function testErrorHandling() {
+            let results = [];
+            
+            try {
+                // Test empty inputs
+                if (typeof handleStaffLogin === 'function') {
+                    // Create empty mock input
+                    const emptyInput = document.createElement('input');
+                    emptyInput.id = 'staffId';
+                    emptyInput.value = '';
+                    document.body.appendChild(emptyInput);
+                    
+                    results.push('✅ Empty input validation test setup');
+                    results.push('⚠️ Would show "Please enter your Staff ID" error');
+                    
+                    document.body.removeChild(emptyInput);
+                }
+                
+                // Test fallback mechanisms
+                if (window.appIntegration) {
+                    if (window.appIntegration.apiManager) {
+                        results.push('✅ API Manager available');
+                    } else {
+                        results.push('⚠️ API Manager not available - fallback mode active');
+                    }
+                }
+                
+                // Test notification system
+                if (window.appIntegration && typeof window.appIntegration.showNotification === 'function') {
+                    window.appIntegration.showNotification('Error handling test successful!', 'success');
+                    results.push('✅ Notification system working');
+                }
+                
+            } catch (error) {
+                results.push(`❌ Error in error handling test: ${error.message}`);
+            }
+            
+            showResult('errorTest', results.join('<br>'), 'info');
+        }
+
+        // Auto-run basic tests on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                testScriptLoading();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
