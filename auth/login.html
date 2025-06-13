@@ -49,7 +49,7 @@
                     <label for="staffId" class="input-label">Staff ID</label>
                     <input type="text" id="staffId" placeholder="Enter your Staff ID" autocomplete="off">
                     <p class="input-hint">Your unique staff identifier provided by your manager</p>
-                </div>                <button class="login-button" id="staffLoginButton">
+                </div>                <button class="login-button" id="staffLoginButton" onclick="handleStaffLogin()">
                     <span class="button-text">Staff Sign In</span>
                     <span class="button-icon">→</span>
                 </button>
@@ -60,7 +60,7 @@
                     <input type="text" id="businessId" placeholder="Enter your Business ID" autocomplete="off">
                     <p class="input-hint">Your unique business identifier</p>
                 </div>
-                <button class="login-button" id="companyLoginButton">
+                <button class="login-button" id="companyLoginButton" onclick="handleCompanyLogin()">
                     <span class="button-text">Company Sign In</span>
                     <span class="button-icon">→</span>
                 </button>
@@ -76,7 +76,7 @@
                     <label for="adminPassword" class="input-label">Super Admin Password</label>
                     <input type="password" id="adminPassword" placeholder="Enter super admin password" autocomplete="off">
                 </div>
-                <button class="login-button" id="superAdminLoginButton">
+                <button class="login-button" id="superAdminLoginButton" onclick="handleSuperAdminLogin()">
                     <span class="button-text">Super Admin Sign In</span>
                     <span class="button-icon">🔐</span>
                 </button>
@@ -142,3 +142,6 @@
     </script>
 </body>
 </html>
+
+
+
