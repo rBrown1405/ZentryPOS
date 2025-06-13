@@ -46,7 +46,17 @@ function setupTabSwitching() {
     if (tabButtons.length) {
         tabButtons.forEach(function(button) {
             button.addEventListener('click', function() {
-                var tabName = this.textContent.toLowerCase().includes('staff') ? 'staff' : 'company';
+                var text = this.textContent.toLowerCase();
+                var tabName;
+                if (text.includes('staff')) {
+                    tabName = 'staff';
+                } else if (text.includes('company')) {
+                    tabName = 'company';
+                } else if (text.includes('super') || text.includes('admin')) {
+                    tabName = 'superadmin';
+                } else {
+                    tabName = 'staff'; // default
+                }
                 switchLoginTab(tabName);
             });
         });

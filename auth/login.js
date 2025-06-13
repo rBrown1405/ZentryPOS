@@ -1,5 +1,11 @@
-// Initialize API Manager
-const apiManager = new ApiManager();
+// Initialize API Manager - make sure API Manager is properly loaded
+let apiManager;
+try {
+    apiManager = new ApiManager();
+} catch (e) {
+    console.error("API Manager not initialized:", e);
+    apiManager = null;
+}
 
 // Login tab switching
 function switchLoginTab(tabName) {
@@ -18,24 +24,67 @@ function switchLoginTab(tabName) {
 
 // Check if user is already logged in
 document.addEventListener('DOMContentLoaded', function() {
-    if (apiManager.isAuthenticated()) {
+    if (apiManager && apiManager.isAuthenticated()) {
         const userRole = apiManager.getUserRole();
         // Use role to redirect appropriately
         switch (userRole) {
             case 'super_admin':
-                navigateWithTransition('super-admin-dashboard.html');
+                if (typeof resolvePath === 'function') {
+                    navigateWithTransition(resolvePath('admin/dashboard.html'));
+                } else {
+                    navigateWithTransition('admin/dashboard.html');
+                }
                 break;
             case 'admin':
-                navigateWithTransition('business-dashboard.html');
+                if (typeof resolvePath === 'function') {
+                    navigateWithTransition(resolvePath('admin/business-settings.html'));
+                } else {
+                    navigateWithTransition('admin/business-settings.html');
+                }
                 break;
             case 'user':
-                navigateWithTransition('staff-dashboard.html');
+                if (typeof resolvePath === 'function') {
+                    navigateWithTransition(resolvePath('app/pos-interface.html'));
+                } else {
+                    navigateWithTransition('app/pos-interface.html');
+                }
                 break;
             default:
-                navigateWithTransition('dashboard.html');
+                if (typeof resolvePath === 'function') {
+                    navigateWithTransition(resolvePath('admin/dashboard.html'));
+                } else {
+                    navigateWithTransition('admin/dashboard.html');
+                }
         }
     }
 });
+
+// Navigation with transition effect
+function navigateWithTransition(url) {
+    console.log('Navigating to:', url);
+    
+    // Handle GitHub Pages paths
+    let finalUrl = url;
+    if (typeof resolvePath === 'function') {
+        finalUrl = resolvePath(url);
+    } else {
+        // Manual GitHub Pages path resolution
+        if (window.location.hostname === 'rbrown1405.github.io') {
+            if (!url.startsWith('/ZentryPOS/')) {
+                if (url.startsWith('../')) {
+                    finalUrl = '/ZentryPOS/' + url.substring(3);
+                } else if (url.startsWith('./')) {
+                    finalUrl = '/ZentryPOS/auth/' + url.substring(2);
+                } else if (!url.startsWith('http')) {
+                    finalUrl = '/ZentryPOS/' + url;
+                }
+            }
+        }
+    }
+    
+    // Simple navigation for demo
+    window.location.href = finalUrl;
+}
 
 // Handle staff login
 async function handleStaffLogin() {
@@ -381,4 +430,27 @@ async function handleSuperAdminLogin() {
         console.error('Super admin login error:', error);
         alert('Error during super admin login. Please try again.');
     }
+}
+
+// Show error message
+function showError(message) {
+    alert('Error: ' + message);
+}
+
+// Show success message
+function showSuccess(message) {
+    alert('Success: ' + message);
+}
+
+// Demo handlers for GitHub Pages
+function handleStaffLogin() {
+    alert('Staff login functionality is not available in this demo.');
+}
+
+function handleCompanyLogin() {
+    alert('Company login functionality is not available in this demo.');
+}
+
+function handleSuperAdminLogin() {
+    alert('Super Admin login functionality is not available in this demo.');
 }
