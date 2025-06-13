@@ -120,7 +120,7 @@ function initializeNavigation() {
     if (startButton) {
         startButton.removeAttribute('onclick');
         startButton.addEventListener('click', function() {
-            navigateTo('auth/login.html');
+            console.log('Get Started clicked'); navigateTo('auth/login.html');
         });
     }
     
