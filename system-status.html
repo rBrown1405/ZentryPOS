@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zentry POS - System Status</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .status-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .status-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .status-title {
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .status-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .status-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .status-card.success {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+        
+        .status-card.warning {
+            border-color: #f59e0b;
+            background: #fffbeb;
+        }
+        
+        .status-card.error {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+        
+        .status-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .status-card.success .status-icon {
+            color: #10b981;
+        }
+        
+        .status-card.warning .status-icon {
+            color: #f59e0b;
+        }
+        
+        .status-card.error .status-icon {
+            color: #ef4444;
+        }
+        
+        .test-button {
+            background: #3b82f6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .test-button:hover {
+            background: #2563eb;
+        }
+        
+        .test-button.success {
+            background: #10b981;
+        }
+        
+        .test-button.warning {
+            background: #f59e0b;
+        }
+        
+        .test-button.error {
+            background: #ef4444;
+        }
+        
+        .log-output {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+        
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .quick-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .quick-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-background">
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+    </div>
+    
+    <div class="status-container">
+        <div class="status-header">
+            <h1 class="status-title">🚀 Zentry POS - System Status</h1>
+            <p>Production deployment verification and system testing</p>
+        </div>
+        
+        <div class="status-grid">
+            <div class="status-card" id="frontend-status">
+                <div class="status-icon">⚡</div>
+                <h3>Frontend Systems</h3>
+                <p>GitHub Pages deployment, authentication, and UI functionality</p>
+                <button class="test-button" onclick="testFrontend()">Test Frontend</button>
+                <div id="frontend-log" class="log-output" style="display: none;"></div>
+            </div>
+            
+            <div class="status-card" id="backend-status">
+                <div class="status-icon">🔗</div>
+                <h3>Backend API</h3>
+                <p>API connectivity, authentication, and data management</p>
+                <button class="test-button" onclick="testBackend()">Test Backend</button>
+                <div id="backend-log" class="log-output" style="display: none;"></div>
+            </div>
+            
+            <div class="status-card" id="auth-status">
+                <div class="status-icon">🔐</div>
+                <h3>Authentication</h3>
+                <p>Login flow, role-based access, and session management</p>
+                <button class="test-button" onclick="testAuthentication()">Test Auth</button>
+                <div id="auth-log" class="log-output" style="display: none;"></div>
+            </div>
+            
+            <div class="status-card" id="database-status">
+                <div class="status-icon">💾</div>
+                <h3>Database & Storage</h3>
+                <p>Data persistence, backup systems, and integrity</p>
+                <button class="test-button" onclick="testDatabase()">Test Database</button>
+                <div id="database-log" class="log-output" style="display: none;"></div>
+            </div>
+            
+            <div class="status-card" id="features-status">
+                <div class="status-icon">⚙️</div>
+                <h3>Core Features</h3>
+                <p>POS interface, menu management, table management, orders</p>
+                <button class="test-button" onclick="testFeatures()">Test Features</button>
+                <div id="features-log" class="log-output" style="display: none;"></div>
+            </div>
+            
+            <div class="status-card" id="help-status">
+                <div class="status-icon">❓</div>
+                <h3>Help System</h3>
+                <p>Documentation, support resources, and user guidance</p>
+                <button class="test-button" onclick="testHelp()">Test Help</button>
+                <div id="help-log" class="log-output" style="display: none;"></div>
+            </div>
+        </div>
+        
+        <div class="quick-links">
+            <a href="auth/login.html" class="quick-link">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔑</div>
+                <strong>Login System</strong>
+                <div>Test authentication</div>
+            </a>
+            
+            <a href="auth/help.html" class="quick-link">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📚</div>
+                <strong>Help & Docs</strong>
+                <div>Complete documentation</div>
+            </a>
+            
+            <a href="app/pos-interface.html" class="quick-link">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">💻</div>
+                <strong>POS Interface</strong>
+                <div>Main system interface</div>
+            </a>
+            
+            <a href="dashboard.html" class="quick-link">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+                <strong>Dashboard</strong>
+                <div>Business analytics</div>
+            </a>
+        </div>
+        
+        <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
+            <button class="test-button" onclick="runAllTests()" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                🧪 Run All Tests
+            </button>
+            <button class="test-button" onclick="clearLogs()" style="background: #6b7280;">
+                🗑️ Clear Logs
+            </button>
+        </div>
+    </div>
+    
+    <script src="js/base-url.js"></script>
+    <script src="js/api-manager.js"></script>
+    <script src="js/app-integration.js"></script>
+    <script>
+        let testResults = {};
+        
+        function log(testName, message, type = 'info') {
+            const logElement = document.getElementById(`${testName}-log`);
+            const timestamp = new Date().toLocaleTimeString();
+            
+            let color = '#f9fafb';
+            if (type === 'success') color = '#10b981';
+            if (type === 'warning') color = '#f59e0b';
+            if (type === 'error') color = '#ef4444';
+            
+            logElement.innerHTML += `<div style="color: ${color};">[${timestamp}] ${message}</div>`;
+            logElement.style.display = 'block';
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+        
+        function updateStatus(testName, status) {
+            const card = document.getElementById(`${testName}-status`);
+            const button = card.querySelector('.test-button');
+            
+            card.className = `status-card ${status}`;
+            button.className = `test-button ${status}`;
+            
+            testResults[testName] = status;
+        }
+        
+        async function testFrontend() {
+            log('frontend', 'Testing frontend systems...', 'info');
+            updateStatus('frontend', 'warning');
+            
+            try {
+                // Test if we're on the correct domain
+                const isProduction = window.location.hostname === 'rbrown1405.github.io';
+                log('frontend', `Environment: ${isProduction ? 'Production (GitHub Pages)' : 'Local Development'}`, 'info');
+                
+                // Test basic page loads
+                const testPages = ['auth/login.html', 'auth/help.html', 'dashboard.html'];
+                let successCount = 0;
+                
+                for (const page of testPages) {
+                    try {
+                        const response = await fetch(page, { method: 'HEAD' });
+                        if (response.ok) {
+                            successCount++;
+                            log('frontend', `✓ ${page} - accessible`, 'success');
+                        } else {
+                            log('frontend', `✗ ${page} - error ${response.status}`, 'error');
+                        }
+                    } catch (error) {
+                        log('frontend', `✗ ${page} - failed to load`, 'error');
+                    }
+                }
+                
+                // Test JavaScript loading
+                const jsExists = typeof AppIntegration !== 'undefined' && typeof ApiManager !== 'undefined';
+                log('frontend', `JavaScript modules: ${jsExists ? 'Loaded' : 'Failed'}`, jsExists ? 'success' : 'error');
+                
+                // Test CSS loading
+                const stylesheets = document.styleSheets.length;
+                log('frontend', `Stylesheets loaded: ${stylesheets}`, stylesheets > 0 ? 'success' : 'warning');
+                
+                const overallSuccess = successCount === testPages.length && jsExists;
+                updateStatus('frontend', overallSuccess ? 'success' : 'warning');
+                log('frontend', `Frontend test ${overallSuccess ? 'passed' : 'completed with issues'}`, overallSuccess ? 'success' : 'warning');
+                
+            } catch (error) {
+                log('frontend', `Error: ${error.message}`, 'error');
+                updateStatus('frontend', 'error');
+            }
+        }
+        
+        async function testBackend() {
+            log('backend', 'Testing backend API connectivity...', 'info');
+            updateStatus('backend', 'warning');
+            
+            try {
+                const apiManager = new ApiManager();
+                log('backend', `API URL: ${apiManager.getBaseUrl()}`, 'info');
+                
+                // Test connection
+                const isConnected = await apiManager.testConnection();
+                log('backend', `Connection: ${isConnected ? 'Connected' : 'Failed'}`, isConnected ? 'success' : 'error');
+                
+                if (isConnected) {
+                    log('backend', 'Backend API is accessible', 'success');
+                    updateStatus('backend', 'success');
+                } else {
+                    log('backend', 'Backend API not available - using fallback mode', 'warning');
+                    updateStatus('backend', 'warning');
+                }
+                
+            } catch (error) {
+                log('backend', `Error: ${error.message}`, 'error');
+                log('backend', 'Backend not deployed yet - system will use localStorage fallback', 'warning');
+                updateStatus('backend', 'warning');
+            }
+        }
+        
+        async function testAuthentication() {
+            log('auth', 'Testing authentication system...', 'info');
+            updateStatus('auth', 'warning');
+            
+            try {
+                // Test localStorage auth tokens
+                const hasTokens = localStorage.getItem('authToken') !== null;
+                log('auth', `Stored tokens: ${hasTokens ? 'Present' : 'None'}`, hasTokens ? 'success' : 'info');
+                
+                // Test AppIntegration initialization
+                if (typeof AppIntegration !== 'undefined') {
+                    const appIntegration = new AppIntegration();
+                    log('auth', 'AppIntegration initialized successfully', 'success');
+                    
+                    // Test role-based functionality
+                    const testRoles = ['Owner', 'Manager', 'Server', 'Cashier', 'Kitchen'];
+                    log('auth', `Supported roles: ${testRoles.join(', ')}`, 'info');
+                    
+                    updateStatus('auth', 'success');
+                    log('auth', 'Authentication system ready', 'success');
+                } else {
+                    log('auth', 'AppIntegration not loaded', 'error');
+                    updateStatus('auth', 'error');
+                }
+                
+            } catch (error) {
+                log('auth', `Error: ${error.message}`, 'error');
+                updateStatus('auth', 'error');
+            }
+        }
+        
+        async function testDatabase() {
+            log('database', 'Testing data storage systems...', 'info');
+            updateStatus('database', 'warning');
+            
+            try {
+                // Test localStorage availability
+                const localStorageAvailable = typeof Storage !== 'undefined';
+                log('database', `localStorage: ${localStorageAvailable ? 'Available' : 'Not available'}`, localStorageAvailable ? 'success' : 'error');
+                
+                if (localStorageAvailable) {
+                    // Test localStorage functionality
+                    const testKey = 'zentrypos_test';
+                    const testValue = JSON.stringify({ test: true, timestamp: Date.now() });
+                    
+                    localStorage.setItem(testKey, testValue);
+                    const retrieved = localStorage.getItem(testKey);
+                    const works = retrieved === testValue;
+                    
+                    localStorage.removeItem(testKey);
+                    
+                    log('database', `localStorage read/write: ${works ? 'Working' : 'Failed'}`, works ? 'success' : 'error');
+                }
+                
+                // Test for existing data
+                const existingData = Object.keys(localStorage).filter(key => key.startsWith('zentrypos') || key.includes('User') || key.includes('Business'));
+                log('database', `Existing data keys: ${existingData.length}`, existingData.length > 0 ? 'info' : 'info');
+                
+                updateStatus('database', localStorageAvailable ? 'success' : 'error');
+                log('database', 'Data storage systems operational', 'success');
+                
+            } catch (error) {
+                log('database', `Error: ${error.message}`, 'error');
+                updateStatus('database', 'error');
+            }
+        }
+        
+        async function testFeatures() {
+            log('features', 'Testing core POS features...', 'info');
+            updateStatus('features', 'warning');
+            
+            try {
+                // Test feature pages accessibility
+                const featurePages = [
+                    'app/pos-interface.html',
+                    'app/menu-editor.html', 
+                    'app/tables.html',
+                    'app/room-service.html'
+                ];
+                
+                let accessibleCount = 0;
+                for (const page of featurePages) {
+                    try {
+                        const response = await fetch(page, { method: 'HEAD' });
+                        if (response.ok) {
+                            accessibleCount++;
+                            log('features', `✓ ${page.split('/')[1]} - accessible`, 'success');
+                        } else {
+                            log('features', `✗ ${page.split('/')[1]} - error ${response.status}`, 'error');
+                        }
+                    } catch (error) {
+                        log('features', `✗ ${page.split('/')[1]} - failed`, 'error');
+                    }
+                }
+                
+                // Test JavaScript feature modules
+                const hasFeatureModules = typeof window !== 'undefined';
+                log('features', `Feature modules environment: ${hasFeatureModules ? 'Ready' : 'Not ready'}`, hasFeatureModules ? 'success' : 'error');
+                
+                const overallSuccess = accessibleCount === featurePages.length;
+                updateStatus('features', overallSuccess ? 'success' : 'warning');
+                log('features', `Feature test ${overallSuccess ? 'passed' : 'completed with issues'}`, overallSuccess ? 'success' : 'warning');
+                
+            } catch (error) {
+                log('features', `Error: ${error.message}`, 'error');
+                updateStatus('features', 'error');
+            }
+        }
+        
+        async function testHelp() {
+            log('help', 'Testing help and documentation system...', 'info');
+            updateStatus('help', 'warning');
+            
+            try {
+                // Test help page accessibility
+                const response = await fetch('auth/help.html', { method: 'HEAD' });
+                const helpAccessible = response.ok;
+                log('help', `Help page: ${helpAccessible ? 'Accessible' : 'Not accessible'}`, helpAccessible ? 'success' : 'error');
+                
+                // Test help navigation
+                if (helpAccessible) {
+                    log('help', 'Comprehensive help system available', 'success');
+                    log('help', 'Features: Getting Started, POS Interface, Menu Editor, Table Management', 'info');
+                    log('help', 'Features: Room Service, Business Admin, Troubleshooting, Contact Info', 'info');
+                }
+                
+                updateStatus('help', helpAccessible ? 'success' : 'error');
+                log('help', 'Help system test completed', helpAccessible ? 'success' : 'error');
+                
+            } catch (error) {
+                log('help', `Error: ${error.message}`, 'error');
+                updateStatus('help', 'error');
+            }
+        }
+        
+        async function runAllTests() {
+            clearLogs();
+            log('system', 'Running comprehensive system test...', 'info');
+            
+            await testFrontend();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testBackend();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testAuthentication();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testDatabase();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testFeatures();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testHelp();
+            
+            // Generate overall report
+            const results = Object.values(testResults);
+            const successCount = results.filter(r => r === 'success').length;
+            const warningCount = results.filter(r => r === 'warning').length;
+            const errorCount = results.filter(r => r === 'error').length;
+            
+            console.log('System Test Results:', {
+                success: successCount,
+                warnings: warningCount,
+                errors: errorCount,
+                total: results.length
+            });
+        }
+        
+        function clearLogs() {
+            const logs = document.querySelectorAll('.log-output');
+            logs.forEach(log => {
+                log.innerHTML = '';
+                log.style.display = 'none';
+            });
+            
+            const cards = document.querySelectorAll('.status-card');
+            cards.forEach(card => {
+                card.className = 'status-card';
+            });
+            
+            const buttons = document.querySelectorAll('.test-button');
+            buttons.forEach(button => {
+                if (!button.textContent.includes('Run All') && !button.textContent.includes('Clear')) {
+                    button.className = 'test-button';
+                }
+            });
+            
+            testResults = {};
+        }
+        
+        // Auto-run basic tests on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                runAllTests();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Debug Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .status-ok {
+            color: green;
+            background: #f0f8f0;
+        }
+        .status-error {
+            color: red;
+            background: #f8f0f0;
+        }
+        .test-button {
+            background: #007cba;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #005a87;
+        }
+        .log-output {
+            background: #f8f8f8;
+            padding: 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔧 Login System Debug Test</h1>
+        
+        <div class="test-section" id="script-loading">
+            <h3>Script Loading Status</h3>
+            <div id="script-status">Testing...</div>
+        </div>
+        
+        <div class="test-section" id="function-availability">
+            <h3>Function Availability</h3>
+            <div id="function-status">Testing...</div>
+        </div>
+        
+        <div class="test-section" id="login-test">
+            <h3>Login Function Test</h3>
+            <div>
+                <input type="text" id="testStaffId" placeholder="Enter Staff ID (e.g., STAFF001)" style="padding: 8px; margin: 5px;">
+                <button class="test-button" onclick="testStaffLogin()">Test Staff Login</button>
+            </div>
+            <div id="login-output"></div>
+        </div>
+        
+        <div class="test-section" id="console-log">
+            <h3>Console Output</h3>
+            <div id="console-output" class="log-output"></div>
+            <button class="test-button" onclick="clearConsole()">Clear Console</button>
+        </div>
+    </div>
+
+    <!-- Load the same scripts as login.html -->
+    <script src="../js/api-manager.js" onerror="logError('API Manager failed to load')"></script>
+    <script src="../js/app-integration.js" onerror="logError('App Integration failed to load')"></script>
+    <script src="../js/base-url.js" onerror="logError('Base URL script failed to load')"></script>
+
+    <script>
+        // Console logging capture
+        const originalConsole = {
+            log: console.log,
+            warn: console.warn,
+            error: console.error
+        };
+        
+        let consoleOutput = '';
+        
+        function logToConsole(level, message) {
+            const timestamp = new Date().toLocaleTimeString();
+            consoleOutput += `[${timestamp}] ${level.toUpperCase()}: ${message}\n`;
+            updateConsoleDisplay();
+            
+            // Call original console method
+            originalConsole[level](message);
+        }
+        
+        console.log = (msg) => logToConsole('log', msg);
+        console.warn = (msg) => logToConsole('warn', msg);
+        console.error = (msg) => logToConsole('error', msg);
+        
+        function logError(message) {
+            console.error(message);
+        }
+        
+        function updateConsoleDisplay() {
+            document.getElementById('console-output').textContent = consoleOutput;
+        }
+        
+        function clearConsole() {
+            consoleOutput = '';
+            updateConsoleDisplay();
+        }
+        
+        // Test functions
+        function checkScriptLoading() {
+            const status = document.getElementById('script-status');
+            let statusHTML = '';
+            
+            // Check if ApiManager is loaded
+            if (typeof ApiManager !== 'undefined') {
+                statusHTML += '<div class="status-ok">✓ ApiManager class loaded successfully</div>';
+            } else {
+                statusHTML += '<div class="status-error">✗ ApiManager class not loaded</div>';
+            }
+            
+            // Check if AppIntegration is loaded
+            if (typeof AppIntegration !== 'undefined') {
+                statusHTML += '<div class="status-ok">✓ AppIntegration class loaded successfully</div>';
+            } else {
+                statusHTML += '<div class="status-error">✗ AppIntegration class not loaded</div>';
+            }
+            
+            // Check if global instance exists
+            if (typeof window.appIntegration !== 'undefined') {
+                statusHTML += '<div class="status-ok">✓ Global appIntegration instance exists</div>';
+            } else {
+                statusHTML += '<div class="status-error">✗ Global appIntegration instance not found</div>';
+            }
+            
+            status.innerHTML = statusHTML;
+        }
+        
+        function checkFunctionAvailability() {
+            const status = document.getElementById('function-status');
+            let statusHTML = '';
+            
+            // Check login functions
+            const functions = ['handleStaffLogin', 'handleCompanyLogin', 'handleSuperAdminLogin', 'handleHelpClick', 'handleRegistrationClick'];
+            
+            functions.forEach(funcName => {
+                if (typeof window[funcName] === 'function') {
+                    statusHTML += `<div class="status-ok">✓ ${funcName} function available</div>`;
+                } else {
+                    statusHTML += `<div class="status-error">✗ ${funcName} function not available</div>`;
+                }
+            });
+            
+            status.innerHTML = statusHTML;
+        }
+        
+        function testStaffLogin() {
+            const output = document.getElementById('login-output');
+            const staffId = document.getElementById('testStaffId').value.trim();
+            
+            if (!staffId) {
+                output.innerHTML = '<div class="status-error">Please enter a Staff ID to test</div>';
+                return;
+            }
+            
+            output.innerHTML = '<div>Testing login function...</div>';
+            
+            try {
+                if (typeof handleStaffLogin === 'function') {
+                    // Temporarily modify the DOM for testing
+                    const originalStaffIdInput = document.getElementById('staffId');
+                    if (!originalStaffIdInput) {
+                        // Create temporary input
+                        const tempInput = document.createElement('input');
+                        tempInput.id = 'staffId';
+                        tempInput.value = staffId;
+                        tempInput.style.display = 'none';
+                        document.body.appendChild(tempInput);
+                    } else {
+                        originalStaffIdInput.value = staffId;
+                    }
+                    
+                    // Create temporary button
+                    const originalButton = document.getElementById('staffLoginButton');
+                    if (!originalButton) {
+                        const tempButton = document.createElement('button');
+                        tempButton.id = 'staffLoginButton';
+                        tempButton.innerHTML = '<span class="button-text">Staff Sign In</span>';
+                        tempButton.style.display = 'none';
+                        document.body.appendChild(tempButton);
+                    }
+                    
+                    // Call the function
+                    handleStaffLogin();
+                    output.innerHTML = '<div class="status-ok">✓ handleStaffLogin function called successfully</div>';
+                } else {
+                    output.innerHTML = '<div class="status-error">✗ handleStaffLogin function not available</div>';
+                }
+            } catch (error) {
+                output.innerHTML = `<div class="status-error">✗ Error calling handleStaffLogin: ${error.message}</div>`;
+                console.error('Login test error:', error);
+            }
+        }
+        
+        // Run tests when page loads
+        window.addEventListener('load', function() {
+            console.log('Debug page loaded');
+            
+            setTimeout(() => {
+                checkScriptLoading();
+                checkFunctionAvailability();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
