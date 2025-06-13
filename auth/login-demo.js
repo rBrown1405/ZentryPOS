@@ -113,7 +113,7 @@ function setupLoginFormHandlers() {
     if (newUserButton) {
         newUserButton.addEventListener('click', function(e) {
             e.preventDefault();
-            alert('Registration functionality is not available in this demo.');
+            navigateWithTransition('account-selection-working.html');
         });
     }
     
@@ -122,7 +122,7 @@ function setupLoginFormHandlers() {
     registerBtns.forEach(function(btn) {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
-            alert('Registration functionality is not available in this demo.');
+            navigateWithTransition('account-selection-working.html');
         });
     });
 }
@@ -153,32 +153,52 @@ function fixNavigationButtons() {
 function navigateWithTransition(url) {
     console.log('Navigating to:', url);
     
-    // For this demo, we'll just show an alert instead of actual navigation
+    // Handle special demo pages
     if (url === 'help.html') {
         alert('Help functionality is not available in this demo.');
-    } else if (url === 'account-selection.html') {
-        alert('Account registration functionality is not available in this demo.');
-    } else {
+        return;
+    }
+    
+    // Handle navigation to registration flow
+    if (url === 'account-selection.html' || url === 'account-selection-working.html' || 
+        url === 'business-registration.html' || url === 'business-registration-working.html' || 
+        url === 'staff-registration.html' || url === 'staff-registration-working.html' ||
+        url === 'staff-approval.html' || url === 'staff-approval-working.html') {
         // If we're on GitHub Pages, handle the base URL
         if (typeof resolvePath === 'function') {
-            window.location.href = resolvePath(url);
+            window.location.href = resolvePath('auth/' + url);
         } else {
             // Determine if we need to prepend a path for GitHub Pages
             let finalUrl = url;
             if (window.location.hostname === 'rbrown1405.github.io') {
-                // If the URL doesn't already start with /ZentryPOS/, add it
-                if (!url.startsWith('/ZentryPOS/')) {
-                    // Handle relative paths properly
-                    if (url.startsWith('../')) {
-                        finalUrl = '/ZentryPOS/' + url.substring(3);
-                    } else if (url.startsWith('./')) {
-                        finalUrl = '/ZentryPOS/auth/' + url.substring(2);
-                    } else {
-                        finalUrl = '/ZentryPOS/auth/' + url;
-                    }
-                }
+                finalUrl = '/ZentryPOS/auth/' + url;
+            } else {
+                finalUrl = url;
             }
             window.location.href = finalUrl;
         }
+        return;
+    }
+    
+    // Handle other navigation
+    if (typeof resolvePath === 'function') {
+        window.location.href = resolvePath(url);
+    } else {
+        // Determine if we need to prepend a path for GitHub Pages
+        let finalUrl = url;
+        if (window.location.hostname === 'rbrown1405.github.io') {
+            // If the URL doesn't already start with /ZentryPOS/, add it
+            if (!url.startsWith('/ZentryPOS/')) {
+                // Handle relative paths properly
+                if (url.startsWith('../')) {
+                    finalUrl = '/ZentryPOS/' + url.substring(3);
+                } else if (url.startsWith('./')) {
+                    finalUrl = '/ZentryPOS/auth/' + url.substring(2);
+                } else if (!url.startsWith('http')) {
+                    finalUrl = '/ZentryPOS/' + url;
+                }
+            }
+        }
+        window.location.href = finalUrl;
     }
 }

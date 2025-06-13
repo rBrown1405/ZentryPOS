@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zentry POS - Staff Registration</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="../js/base-url.js"></script>
+    <style>
+        .registration-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .registration-form {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            color: #1a202c;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .input-with-info {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-tooltip {
+            position: absolute;
+            right: 0.75rem;
+            color: #6b7280;
+            cursor: help;
+            z-index: 10;
+        }
+        
+        .field-description {
+            display: block;
+            margin-top: 0.25rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        .business-info {
+            background: #f0f9ff;
+            border: 2px solid #0ea5e9;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .info-card h4 {
+            color: #0ea5e9;
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        
+        .business-name {
+            font-weight: 600;
+            margin: 0;
+            color: #1e293b;
+        }
+        
+        .business-details {
+            margin: 0.25rem 0 0 0;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        
+        .submit-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .submit-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .success-message {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .success-icon {
+            font-size: 3rem;
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+        
+        .dashboard-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .dashboard-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" id="backButton">
+        <span class="back-button-icon">←</span>
+        <span>Back</span>
+    </button>
+
+    <div class="animated-background">
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+    </div>
+
+    <div class="registration-container">
+        <div class="logo-container">
+            <div class="logo">Z</div>
+        </div>
+        <h1 class="registration-title">Staff <span class="highlight">Registration</span></h1>
+        
+        <div id="registrationForm" class="registration-form">
+            <div class="form-section">
+                <h3 class="section-title">Business Connection</h3>
+                
+                <div class="form-group">
+                    <label for="propertyConnectionCode">Property Connection Code</label>
+                    <div class="input-with-info">
+                        <input type="text" id="propertyConnectionCode" required placeholder="Enter the 6-digit code from your employer" maxlength="6" style="text-transform: uppercase;">
+                        <div class="info-tooltip" title="Ask your manager for the 6-digit property connection code">ⓘ</div>
+                    </div>
+                    <small class="field-description">This connects you to your employer's property system</small>
+                </div>
+
+                <div id="businessInfo" class="business-info" style="display: none;">
+                    <div class="info-card">
+                        <h4>✅ Business Found</h4>
+                        <p class="business-name" id="businessName"></p>
+                        <p class="business-details" id="businessDetails"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="section-title">Personal Information</h3>
+                
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" required placeholder="Enter your email address">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" required placeholder="Enter your phone number">
+                </div>
+
+                <div class="form-group">
+                    <label for="position">Desired Position *</label>
+                    <select id="position" required>
+                        <option value="">Select a position</option>
+                        <option value="cashier">Cashier</option>
+                        <option value="server">Server</option>
+                        <option value="bartender">Bartender</option>
+                        <option value="host">Host/Hostess</option>
+                        <option value="kitchen">Kitchen Staff</option>
+                        <option value="manager">Manager</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="section-title">Account Security</h3>
+                
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" required placeholder="Create a secure password" minlength="8">
+                    <small class="field-description">Must be at least 8 characters long</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password *</label>
+                    <input type="password" id="confirmPassword" required placeholder="Confirm your password">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-button" id="submitButton">
+                Submit Registration Request
+            </button>
+        </div>
+
+        <div id="successMessage" class="success-message" style="display: none;">
+            <div class="success-icon">✅</div>
+            <h2>Registration Request Submitted!</h2>
+            <p>Your registration request has been sent to the business manager for approval. You'll receive an email notification once your account has been approved.</p>
+            <p><strong>What happens next?</strong></p>
+            <ul style="text-align: left; max-width: 400px; margin: 1rem auto;">
+                <li>Manager reviews your application</li>
+                <li>You receive approval notification</li>
+                <li>Login credentials are activated</li>
+                <li>Welcome email with next steps</li>
+            </ul>
+            <button class="dashboard-button" id="backToLoginButton">
+                Back to Login
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Staff registration page loaded');
+            
+            // Set up back button
+            document.getElementById('backButton').addEventListener('click', function() {
+                navigateWithTransition('account-selection-working.html');
+            });
+            
+            // Set up connection code verification
+            const connectionCodeInput = document.getElementById('propertyConnectionCode');
+            const businessInfo = document.getElementById('businessInfo');
+            const businessName = document.getElementById('businessName');
+            const businessDetails = document.getElementById('businessDetails');
+            
+            connectionCodeInput.addEventListener('input', function() {
+                const code = this.value.toUpperCase();
+                this.value = code;
+                
+                if (code.length === 6) {
+                    // Simulate business lookup
+                    setTimeout(() => {
+                        const businesses = [
+                            { code: 'ABC123', name: 'The Modern Bistro', address: '123 Main St, Downtown' },
+                            { code: 'XYZ789', name: 'Sunset Grill & Bar', address: '456 Ocean Ave, Beachside' },
+                            { code: 'DEF456', name: 'Coffee Corner Cafe', address: '789 Park Rd, Uptown' }
+                        ];
+                        
+                        const business = businesses.find(b => b.code === code) || 
+                                       { code: code, name: 'Demo Restaurant', address: '100 Demo St, Test City' };
+                        
+                        businessName.textContent = business.name;
+                        businessDetails.textContent = business.address;
+                        businessInfo.style.display = 'block';
+                    }, 500);
+                } else {
+                    businessInfo.style.display = 'none';
+                }
+            });
+            
+            // Set up form submission
+            const form = document.getElementById('registrationForm');
+            const submitButton = document.getElementById('submitButton');
+            const successMessage = document.getElementById('successMessage');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Basic validation
+                const connectionCode = document.getElementById('propertyConnectionCode').value;
+                const fullName = document.getElementById('fullName').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const position = document.getElementById('position').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                
+                if (!connectionCode || connectionCode.length !== 6) {
+                    alert('Please enter a valid 6-digit property connection code.');
+                    return;
+                }
+                
+                if (!fullName || !email || !phone || !position || !password) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                if (password.length < 8) {
+                    alert('Password must be at least 8 characters long.');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match.');
+                    return;
+                }
+                
+                // Simulate submission
+                submitButton.disabled = true;
+                submitButton.textContent = 'Submitting...';
+                
+                setTimeout(() => {
+                    // Save staff registration data to localStorage for demo
+                    const staffData = {
+                        id: 'staff_' + Date.now(),
+                        connectionCode: connectionCode,
+                        fullName: fullName,
+                        email: email,
+                        phone: phone,
+                        position: position,
+                        status: 'pending',
+                        submittedAt: new Date().toISOString(),
+                        business: {
+                            name: businessName.textContent,
+                            address: businessDetails.textContent
+                        }
+                    };
+                    
+                    // Get existing staff registrations
+                    const existingStaff = JSON.parse(localStorage.getItem('staffRegistrations') || '[]');
+                    existingStaff.push(staffData);
+                    localStorage.setItem('staffRegistrations', JSON.stringify(existingStaff));
+                    
+                    // Show success message
+                    form.style.display = 'none';
+                    successMessage.style.display = 'block';
+                }, 1500);
+            });
+            
+            // Back to login button
+            document.getElementById('backToLoginButton').addEventListener('click', function() {
+                navigateWithTransition('../dashboard.html');
+            });
+        });
+        
+        // Navigation function
+        function navigateWithTransition(url) {
+            if (typeof resolvePath === 'function') {
+                window.location.href = resolvePath(url.startsWith('auth/') ? url : 'auth/' + url);
+            } else {
+                let finalUrl = url;
+                if (window.location.hostname === 'rbrown1405.github.io') {
+                    if (!url.startsWith('/ZentryPOS/')) {
+                        finalUrl = '/ZentryPOS/auth/' + url;
+                    }
+                }
+                window.location.href = finalUrl;
+            }
+        }
+    </script>
+</body>
+</html>

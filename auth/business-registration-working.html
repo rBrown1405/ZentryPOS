@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zentry POS - Business Registration</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="../js/base-url.js"></script>
+    <style>
+        .registration-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .registration-form {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            color: #1a202c;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        .submit-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .success-message {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .success-message h2 {
+            color: #10b981;
+            margin-bottom: 1.5rem;
+        }
+        
+        .identifier-container {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .identifier-section {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .identifier-section h3 {
+            margin: 0 0 0.5rem 0;
+            color: #374151;
+            font-size: 1rem;
+        }
+        
+        .business-id,
+        .property-code,
+        .property-connection-code {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1f2937;
+            background: #fff;
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #d1d5db;
+            margin: 0.5rem 0;
+        }
+        
+        .code-instruction {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin: 0;
+        }
+        
+        .done-button {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 auto;
+        }
+        
+        .done-button:hover {
+            background: #059669;
+        }
+        
+        .hotel-fields {
+            display: none;
+        }
+        
+        .field-description {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+        
+        @media (min-width: 768px) {
+            .identifier-container {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" id="backButton">
+        <span class="back-button-icon">←</span>
+        <span>Back</span>
+    </button>
+
+    <div class="animated-background">
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+    </div>
+
+    <div class="registration-container">
+        <div class="logo-container">
+            <div class="logo">Z</div>
+        </div>
+        <h1 class="registration-title">Register Your <span class="highlight">Business</span></h1>
+        
+        <form class="registration-form" id="businessRegistrationForm">
+            <div class="form-section">
+                <h3 class="section-title">Company Information</h3>
+                <div class="form-group">
+                    <label for="companyName">Company Name *</label>
+                    <input type="text" id="companyName" required placeholder="Your umbrella company name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="ownerName">Owner/General Manager Name *</label>
+                    <input type="text" id="ownerName" required placeholder="Full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="companyEmail">Company Email *</label>
+                    <input type="email" id="companyEmail" required placeholder="business@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="companyPhone">Company Phone *</label>
+                    <input type="tel" id="companyPhone" required placeholder="Phone number">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="section-title">First Property Information</h3>
+                <div class="form-group">
+                    <label for="propertyName">Property Name *</label>
+                    <input type="text" id="propertyName" required placeholder="Name of your first location">
+                </div>
+                
+                <div class="form-group">
+                    <label for="businessType">Property Type *</label>
+                    <select id="businessType" required>
+                        <option value="" disabled selected>Select your property type</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="retail">Retail Store</option>
+                        <option value="hotel">Hotel</option>
+                        <option value="cafe">Café</option>
+                        <option value="bar">Bar/Pub</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Property Address *</label>
+                    <textarea id="address" required placeholder="Full address including city, state/province"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="country">Country *</label>
+                    <select id="country" required>
+                        <option value="" disabled selected>Select country</option>
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="AU">Australia</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-button">
+                <span class="button-text">Create Business Account</span>
+                <span class="button-icon">→</span>
+            </button>
+        </form>
+
+        <div class="success-message" id="successMessage" style="display: none;">
+            <h2>Business Account Created Successfully!</h2>
+            <div class="identifier-container">
+                <div class="identifier-section">
+                    <h3>Company Business ID</h3>
+                    <p class="business-id" id="businessIdDisplay"></p>
+                    <p class="code-instruction">Use this ID to log in to your business account</p>
+                </div>
+                <div class="identifier-section">
+                    <h3>Property Code</h3>
+                    <p class="property-code" id="propertyCodeDisplay"></p>
+                    <p class="code-instruction">Use this code for property-specific operations</p>
+                </div>
+                <div class="identifier-section">
+                    <h3>Property Connection Code</h3>
+                    <p class="property-connection-code" id="connectionCodeDisplay"></p>
+                    <p class="code-instruction">🔑 Share this 6-digit code with staff members to connect them to your properties</p>
+                </div>
+            </div>
+            <button class="done-button" id="doneButton">
+                <span class="button-text">Done</span>
+                <span class="button-icon">✓</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Navigation function
+        function navigateWithTransition(url) {
+            let finalUrl = url;
+            if (window.location.hostname === 'rbrown1405.github.io') {
+                if (!url.startsWith('/ZentryPOS/')) {
+                    finalUrl = '/ZentryPOS/auth/' + url;
+                }
+            }
+            window.location.href = finalUrl;
+        }
+
+        // Generate unique IDs
+        function generateBusinessId() {
+            return 'BIZ' + Math.random().toString(36).substr(2, 6).toUpperCase();
+        }
+
+        function generatePropertyCode() {
+            return 'PROP' + Math.random().toString(36).substr(2, 5).toUpperCase();
+        }
+
+        function generateConnectionCode() {
+            return Math.random().toString(36).substr(2, 6).toUpperCase();
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Back button
+            document.getElementById('backButton').addEventListener('click', function() {
+                navigateWithTransition('account-selection-working.html');
+            });
+
+            // Done button
+            document.getElementById('doneButton').addEventListener('click', function() {
+                navigateWithTransition('../dashboard.html');
+            });
+
+            // Form submission
+            document.getElementById('businessRegistrationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = {
+                    companyName: document.getElementById('companyName').value,
+                    ownerName: document.getElementById('ownerName').value,
+                    companyEmail: document.getElementById('companyEmail').value,
+                    companyPhone: document.getElementById('companyPhone').value,
+                    propertyName: document.getElementById('propertyName').value,
+                    businessType: document.getElementById('businessType').value,
+                    address: document.getElementById('address').value,
+                    country: document.getElementById('country').value
+                };
+
+                // Validate required fields
+                for (let key in formData) {
+                    if (!formData[key]) {
+                        alert('Please fill in all required fields.');
+                        return;
+                    }
+                }
+
+                // Generate IDs
+                const businessId = generateBusinessId();
+                const propertyCode = generatePropertyCode();
+                const connectionCode = generateConnectionCode();
+
+                // Store business data in localStorage (for demo purposes)
+                const businessData = {
+                    ...formData,
+                    businessId: businessId,
+                    propertyCode: propertyCode,
+                    connectionCode: connectionCode,
+                    createdAt: new Date().toISOString()
+                };
+
+                localStorage.setItem('zentryBusiness_' + businessId, JSON.stringify(businessData));
+                localStorage.setItem('zentryBusinessList', JSON.stringify([
+                    ...(JSON.parse(localStorage.getItem('zentryBusinessList') || '[]')),
+                    businessId
+                ]));
+
+                // Display success message
+                document.getElementById('businessIdDisplay').textContent = businessId;
+                document.getElementById('propertyCodeDisplay').textContent = propertyCode;
+                document.getElementById('connectionCodeDisplay').textContent = connectionCode;
+
+                // Hide form and show success message
+                document.querySelector('.registration-form').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+            });
+
+            // Initialize animations
+            const container = document.querySelector('.registration-container');
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(20px)';
+            container.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            
+            setTimeout(() => {
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 200);
+        });
+    </script>
+</body>
+</html>

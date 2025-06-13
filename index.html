@@ -12,6 +12,9 @@
         <p class="welcome-description">Ready to begin your POS journey?</p>        <div class="quick-access">            <button class="start-button primary" id="getStartedButton">
                 <span class="button-text">🚀 Get Started</span>
             </button>
+            <button class="start-button secondary" id="dashboardButton">
+                <span class="button-text">📊 Demo Dashboard</span>
+            </button>
         </div>
           <div class="features-grid">
             <div class="feature-card">
@@ -39,8 +42,7 @@
         </div>    </div>
 
     <script src="js/app.js"></script>
-    <script>
-        // Direct navigation handler for the Get Started button
+    <script>        // Direct navigation handler for the Get Started button
         document.addEventListener('DOMContentLoaded', function() {
             var getStartedButton = document.getElementById('getStartedButton');
             if (getStartedButton) {
@@ -57,6 +59,20 @@
                         }
                         window.location.href = baseUrl + '/auth/login.html';
                     }
+                });
+            }
+            
+            // Dashboard button handler
+            var dashboardButton = document.getElementById('dashboardButton');
+            if (dashboardButton) {
+                dashboardButton.addEventListener('click', function() {
+                    // Navigate to dashboard
+                    var baseUrl = '';
+                    // Check if we're on GitHub Pages
+                    if (window.location.hostname === 'rbrown1405.github.io') {
+                        baseUrl = '/ZentryPOS';
+                    }
+                    window.location.href = baseUrl + '/dashboard.html';
                 });
             }
         });

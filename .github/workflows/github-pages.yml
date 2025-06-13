@@ -1,0 +1,148 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+        
+      - name: Fix base paths for GitHub Pages
+        run: |
+          echo "Fixing base paths for GitHub Pages deployment..."
+          mkdir -p js
+          cat > js/base-url.js << 'EOF'
+          // Base URL handling for GitHub Pages
+          function getBaseUrl() {
+              // Check if we're on GitHub Pages
+              if (window.location.hostname === 'rbrown1405.github.io') {
+                  return '/ZentryPOS';
+              }
+              // Local development or other hosting
+              return '';
+          }
+
+          // Function to resolve paths relative to the base URL
+          function resolvePath(path) {
+              const base = getBaseUrl();
+              // Remove leading slash if present to avoid double slashes
+              if (path.startsWith('/')) {
+                  path = path.substring(1);
+              }
+              return `${base}/${path}`;
+          }
+
+          // Navigate to a page using the base URL
+          function navigateTo(path) {
+              window.location.href = resolvePath(path);
+          }
+          EOF
+          
+          # Update the index.html file
+          sed -i 's|<head>|<head>\n    <script src="js/base-url.js"></script>|' index.html
+          sed -i 's|window.location.href=.auth/login.html.|navigateTo("auth/login.html")|g' index.html
+          
+          # Create HTML file processing script
+          mkdir -p .github/scripts
+          cat > .github/scripts/inject-base-path.js << 'EOF'
+          const fs = require('fs');
+          const path = require('path');
+
+          // Function to walk directory and find all HTML files
+          function walkSync(dir, filelist = []) {
+            const files = fs.readdirSync(dir);
+            files.forEach(file => {
+              const filepath = path.join(dir, file);
+              if (fs.statSync(filepath).isDirectory()) {
+                filelist = walkSync(filepath, filelist);
+              } else if (path.extname(file) === '.html') {
+                filelist.push(filepath);
+              }
+            });
+            return filelist;
+          }
+
+          // Get all HTML files
+          const htmlFiles = walkSync('.');
+          console.log(`Found ${htmlFiles.length} HTML files to process`);
+
+          htmlFiles.forEach(file => {
+            try {
+              console.log(`Processing: ${file}`);
+              let content = fs.readFileSync(file, 'utf8');
+              
+              // Determine relative path to js/base-url.js
+              let relativePath = path.relative(path.dirname(file), '.');
+              if (relativePath === '') relativePath = '.';
+              const scriptPath = `${relativePath}/js/base-url.js`;
+              
+              // Skip if already has the base-url.js script
+              if (content.includes('base-url.js')) {
+                console.log(`  - Already has base-url.js script`);
+                return;
+              }
+              
+              // Add base-url.js script
+              content = content.replace(/<head>([^]*?)<\/head>/s, function(match, head) {
+                return `<head>${head}    <script src="${scriptPath}"></script>\n</head>`;
+              });
+              
+              // Replace window.location.href with navigateTo
+              content = content.replace(/window\.location\.href\s*=\s*['"](.+?)['"]/g, 'navigateTo("$1")');
+              
+              // Fix CSS paths
+              if (file !== './index.html' && file !== './404.html') {
+                let cssRelativePath = path.relative(path.dirname(file), './styles');
+                content = content.replace(/href=["']styles\/main\.css["']/g, `href="${cssRelativePath}/main.css"`);
+              }
+              
+              fs.writeFileSync(file, content);
+              console.log(`  - Updated successfully`);
+            } catch (err) {
+              console.error(`  - Error processing ${file}:`, err);
+            }
+          });
+          EOF
+          
+          # Run the script to update all HTML files
+          node .github/scripts/inject-base-path.js
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          # Upload entire repository
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

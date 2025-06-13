@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Zentry POS</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="js/base-url.js"></script>
+    <style>
+        .error-container {
+            text-align: center;
+            padding: 50px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .error-code {
+            font-size: 120px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #f44336;
+        }
+        .error-message {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+        .error-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        .home-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .home-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="logo">Z</div>
+        <div class="error-icon">🔍</div>
+        <div class="error-code">404</div>
+        <h1 class="error-message">Page Not Found</h1>
+        <p>The page you're looking for doesn't exist or has been moved.</p>
+        <a href="#" class="home-button" onclick="navigateTo('index.html'); return false;">Go to Homepage</a>
+    </div>
+    
+    <script>
+        // Set the correct home URL with our base URL utility
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.home-button').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = resolvePath('index.html');
+            });
+        });
+    </script>
+</body>
+</html>
