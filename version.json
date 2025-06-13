@@ -1,0 +1,16 @@
+{
+  "name": "Zentry POS System",
+  "version": "1.0.0",
+  "buildDate": "June 13, 2025",
+  "releaseNotes": [
+    "Initial release of Zentry POS System",
+    "Supports multi-property management",
+    "Integrated menu management",
+    "Table management and floor plan editor",
+    "User authentication and role-based access control"
+  ],
+  "minimumRequirements": {
+    "browser": "Chrome 90+, Firefox 90+, Safari 15+, Edge 90+",
+    "backend": "Node.js 16+, MongoDB 5+"
+  }
+}
