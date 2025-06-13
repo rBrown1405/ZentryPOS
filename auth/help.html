@@ -95,8 +95,7 @@
             margin-bottom: 0.5rem;
             display: block;
         }
-        
-        .contact-info {
+          .contact-info {
             background: #ecfdf5;
             border: 1px solid #a7f3d0;
             border-radius: 12px;
@@ -123,6 +122,182 @@
             color: white;
             text-decoration: none;
         }
+        
+        /* Feature Grid Styling */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-card h3, .feature-card h4 {
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-card h4 {
+            font-size: 1.1rem;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Spotlight Section Styling */
+        .feature-spotlight {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #bae6fd;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .spotlight-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .spotlight-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+        }
+        
+        .spotlight-header h3 {
+            color: #0369a1;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        
+        .feature-spotlight > p {
+            color: #075985;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Troubleshooting Styling */
+        .troubleshooting-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .trouble-card {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .trouble-card h3 {
+            color: #dc2626;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .problem {
+            margin-bottom: 1.5rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .problem h4 {
+            color: #991b1b;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .problem ul {
+            margin: 0.5rem 0 0 1rem;
+            color: #374151;
+        }
+        
+        .problem li {
+            margin-bottom: 0.3rem;
+        }
+        
+        /* Contact Info Enhanced Styling */
+        .contact-info h2 {
+            color: #059669;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .contact-info ul {
+            margin: 0.5rem 0 1rem 1.5rem;
+            color: #065f46;
+        }
+        
+        .contact-info li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        .contact-info strong {
+            color: #047857;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .help-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 0.5rem;
+            }
+            
+            .quick-action {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .quick-action .icon {
+                font-size: 1.5rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .troubleshooting-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -134,128 +309,594 @@
     
     <div class="help-container">
         <button class="back-button" onclick="goBack()">← Back to Login</button>
-        
-        <div class="help-header">
-            <h1 class="help-title">🔧 Help & Support</h1>
-            <p class="help-subtitle">Everything you need to know about using Zentry POS</p>
+          <div class="help-header">
+            <h1 class="help-title">🔧 Zentry POS - Complete System Guide</h1>
+            <p class="help-subtitle">Comprehensive documentation for all POS features and functionality</p>
         </div>
         
         <div class="quick-actions">
-            <button class="quick-action" onclick="scrollToSection('business-owners')">
+            <button class="quick-action" onclick="scrollToSection('getting-started')">
+                <span class="icon">🚀</span>
+                <strong>Getting Started</strong>
+                <div>Login & Account Setup</div>
+            </button>
+            
+            <button class="quick-action" onclick="scrollToSection('pos-interface')">
+                <span class="icon">💻</span>
+                <strong>POS Interface</strong>
+                <div>Main System Overview</div>
+            </button>
+            
+            <button class="quick-action" onclick="scrollToSection('menu-management')">
+                <span class="icon">🍽️</span>
+                <strong>Menu Editor</strong>
+                <div>Menu & Item Management</div>
+            </button>
+            
+            <button class="quick-action" onclick="scrollToSection('table-management')">
+                <span class="icon">🪑</span>
+                <strong>Table Management</strong>
+                <div>Tables & Floor Plans</div>
+            </button>
+            
+            <button class="quick-action" onclick="scrollToSection('room-service')">
+                <span class="icon">🏨</span>
+                <strong>Room Service</strong>
+                <div>Hotel Mode Features</div>
+            </button>
+            
+            <button class="quick-action" onclick="scrollToSection('business-management')">
                 <span class="icon">🏢</span>
-                <strong>Business Owners</strong>
-                <div>Setup & Management</div>
+                <strong>Business Admin</strong>
+                <div>Settings & Management</div>
             </button>
             
-            <button class="quick-action" onclick="scrollToSection('staff-members')">
-                <span class="icon">👥</span>
-                <strong>Staff Members</strong>
-                <div>Getting Started</div>
-            </button>
-            
-            <button class="quick-action" onclick="scrollToSection('login-help')">
-                <span class="icon">🔑</span>
-                <strong>Login Issues</strong>
-                <div>Troubleshooting</div>
+            <button class="quick-action" onclick="scrollToSection('troubleshooting')">
+                <span class="icon">⚠️</span>
+                <strong>Troubleshooting</strong>
+                <div>Common Issues & Solutions</div>
             </button>
             
             <button class="quick-action" onclick="scrollToSection('contact')">
-                <span class="icon">💬</span>
-                <strong>Get Support</strong>
-                <div>Contact Information</div>
+                <span class="icon">📞</span>
+                <strong>Support & Contact</strong>
+                <div>Get Help & Assistance</div>
             </button>
         </div>
         
-        <div id="business-owners" class="help-section">
-            <h2>🏢 For Business Owners</h2>
-            <p><strong>Setting up your business account:</strong></p>
-            <ul>
-                <li>Click "New Business / Staff Registration" on the login page</li>
-                <li>Select "Business Owner" to create a new business account</li>
-                <li>Fill in your company information and first property details</li>
-                <li>You'll receive a Business ID for future logins</li>
-            </ul>
+        <!-- Getting Started Section -->
+        <div id="getting-started" class="help-section">
+            <h2>🚀 Getting Started with Zentry POS</h2>
             
-            <p><strong>Managing your establishment:</strong></p>
-            <ul>
-                <li>Add and manage multiple properties (restaurants, hotels, retail stores)</li>
-                <li>Create staff accounts and assign roles (Manager, Server, Cashier, Kitchen)</li>
-                <li>Set up menu items, tables, and floor plans</li>
-                <li>Access detailed analytics and reports</li>
-                <li>Configure system settings and permissions</li>
-            </ul>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏢</div>
+                    <h3>Business Owners</h3>
+                    <p><strong>Setting up your business:</strong></p>
+                    <ul>
+                        <li>Click "New Business / Staff Registration"</li>
+                        <li>Select "Business Owner" account type</li>
+                        <li>Complete company and property information</li>
+                        <li>Receive your unique Business ID for future logins</li>
+                        <li>Access admin dashboard for full system control</li>
+                    </ul>
+                    
+                    <p><strong>What you can manage:</strong></p>
+                    <ul>
+                        <li>Multiple properties (restaurants, hotels, retail)</li>
+                        <li>Staff accounts and role permissions</li>
+                        <li>Menu items and pricing</li>
+                        <li>Table layouts and floor plans</li>
+                        <li>Business analytics and reports</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Staff Members</h3>
+                    <p><strong>Joining a business:</strong></p>
+                    <ul>
+                        <li>Get connection code from your manager</li>
+                        <li>Select "Staff Member" during registration</li>
+                        <li>Enter connection code and complete profile</li>
+                        <li>Receive Staff ID for quick daily login</li>
+                        <li>Access role-based features automatically</li>
+                    </ul>
+                    
+                    <p><strong>Staff roles available:</strong></p>
+                    <ul>
+                        <li><strong>Manager:</strong> Full operational control</li>
+                        <li><strong>Server:</strong> Orders, tables, customer service</li>
+                        <li><strong>Cashier:</strong> Payment processing, checkout</li>
+                        <li><strong>Kitchen:</strong> Order preparation, kitchen display</li>
+                    </ul>
+                </div>
+            </div>
         </div>
         
-        <div id="staff-members" class="help-section">
-            <h2>👥 For Staff Members</h2>
-            <p><strong>Joining a business:</strong></p>
-            <ul>
-                <li>Ask your manager for a connection code or Staff ID</li>
-                <li>Click "New Business / Staff Registration" on the login page</li>
-                <li>Select "Staff Member" and enter your connection code</li>
-                <li>Complete your profile information</li>
-            </ul>
+        <!-- POS Interface Section -->
+        <div id="pos-interface" class="help-section">
+            <h2>💻 POS Interface - Main System Overview</h2>
             
-            <p><strong>Using the POS system:</strong></p>
-            <ul>
-                <li>Use your Staff ID for quick login</li>
-                <li>Access features based on your assigned role</li>
-                <li>Process orders, manage tables, and handle payments</li>
-                <li>View your assigned tasks and responsibilities</li>
-            </ul>
+            <div class="feature-spotlight">
+                <div class="spotlight-header">
+                    <div class="spotlight-icon">🖥️</div>
+                    <h3>Main POS Dashboard</h3>
+                </div>
+                <p>The central hub for all daily operations, designed for speed and efficiency.</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🛒 Order Management</h4>
+                        <ul>
+                            <li>Quick item selection from menu</li>
+                            <li>Real-time order tracking</li>
+                            <li>Order modifications and special requests</li>
+                            <li>Split bills and group orders</li>
+                            <li>Kitchen communication system</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>💳 Payment Processing</h4>
+                        <ul>
+                            <li>Multiple payment methods support</li>
+                            <li>Tip calculation and distribution</li>
+                            <li>Receipt generation and printing</li>
+                            <li>Refund and void transactions</li>
+                            <li>Daily sales reconciliation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>📊 Live Dashboard</h4>
+                        <ul>
+                            <li>Real-time sales metrics</li>
+                            <li>Active orders status</li>
+                            <li>Table occupancy overview</li>
+                            <li>Staff performance tracking</li>
+                            <li>Inventory level alerts</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>👤 User Management</h4>
+                        <ul>
+                            <li>Quick staff login/logout</li>
+                            <li>Role-based interface customization</li>
+                            <li>Shift tracking and time management</li>
+                            <li>Permission-based feature access</li>
+                            <li>Activity logging and audit trails</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <div id="login-help" class="help-section">
-            <h2>🔑 Login Types & Troubleshooting</h2>
+        <!-- Menu Management Section -->
+        <div id="menu-management" class="help-section">
+            <h2>🍽️ Menu Editor - Complete Menu Management</h2>
             
-            <p><strong>Staff Login:</strong></p>
-            <ul>
-                <li>Enter your Staff ID (provided by your manager)</li>
-                <li>Quick access to POS interface</li>
-                <li>Role-based permissions automatically applied</li>
-            </ul>
-            
-            <p><strong>Company Login:</strong></p>
-            <ul>
-                <li>Enter your Business ID (received during registration)</li>
-                <li>Full management access to your business</li>
-                <li>Access to admin dashboard and settings</li>
-            </ul>
-            
-            <p><strong>Super Admin Login:</strong></p>
-            <ul>
-                <li>System administration access</li>
-                <li>Requires special credentials</li>
-                <li>For system maintenance only</li>
-            </ul>
-            
-            <p><strong>Common Issues:</strong></p>
-            <ul>
-                <li><strong>Forgot your ID?</strong> Contact your business owner or system administrator</li>
-                <li><strong>Access denied?</strong> Check with your manager about your account status</li>
-                <li><strong>Page not loading?</strong> Try refreshing or check your internet connection</li>
-            </ul>
+            <div class="feature-spotlight">
+                <div class="spotlight-header">
+                    <div class="spotlight-icon">📝</div>
+                    <h3>Advanced Menu Editor</h3>
+                </div>
+                <p>Powerful tools for creating and managing your complete menu system.</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🏷️ Menu Categories</h4>
+                        <ul>
+                            <li>Create unlimited menu categories</li>
+                            <li>Drag-and-drop category organization</li>
+                            <li>Category-specific styling and colors</li>
+                            <li>Seasonal menu management</li>
+                            <li>Category availability scheduling</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>🍕 Menu Items</h4>
+                        <ul>
+                            <li>Detailed item descriptions and photos</li>
+                            <li>Pricing and portion management</li>
+                            <li>Allergen and dietary information</li>
+                            <li>Customization options and modifiers</li>
+                            <li>Inventory tracking integration</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>⚙️ Advanced Features</h4>
+                        <ul>
+                            <li>Combo meals and bundle pricing</li>
+                            <li>Time-based menu availability</li>
+                            <li>Happy hour and promotion pricing</li>
+                            <li>Multi-language menu support</li>
+                            <li>Print-ready menu generation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>📱 Digital Integration</h4>
+                        <ul>
+                            <li>QR code menu generation</li>
+                            <li>Online ordering integration</li>
+                            <li>Mobile-optimized menu display</li>
+                            <li>Real-time menu updates</li>
+                            <li>Social media menu sharing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <div id="contact" class="contact-info">
-            <h2>💬 Need More Help?</h2>
-            <p><strong>For immediate assistance:</strong></p>
-            <ul>
-                <li><strong>Staff Members:</strong> Contact your business owner or manager</li>
-                <li><strong>Business Owners:</strong> Contact your system administrator</li>
-                <li><strong>Technical Issues:</strong> Check the system status or contact support</li>
-            </ul>
+        <!-- Table Management Section -->
+        <div id="table-management" class="help-section">
+            <h2>🪑 Table Management - Tables & Floor Plans</h2>
             
-            <p><strong>Self-Help Resources:</strong></p>
-            <ul>
-                <li>Try the registration process step-by-step</li>
-                <li>Check your internet connection</li>
-                <li>Clear your browser cache and try again</li>
-                <li>Make sure JavaScript is enabled in your browser</li>
-            </ul>
+            <div class="feature-spotlight">
+                <div class="spotlight-header">
+                    <div class="spotlight-icon">🏗️</div>
+                    <h3>Interactive Floor Plan Editor</h3>
+                </div>
+                <p>Design and manage your restaurant layout with precision and flexibility.</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🎨 Floor Plan Design</h4>
+                        <ul>
+                            <li>Drag-and-drop table placement</li>
+                            <li>Multiple floor and section support</li>
+                            <li>Custom table shapes and sizes</li>
+                            <li>Wall and obstacle mapping</li>
+                            <li>3D visualization preview</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>📋 Table Management</h4>
+                        <ul>
+                            <li>Real-time table status tracking</li>
+                            <li>Reservation system integration</li>
+                            <li>Table capacity and party size matching</li>
+                            <li>Server assignment and rotation</li>
+                            <li>Table turnover optimization</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>🎯 Table Views</h4>
+                        <ul>
+                            <li><strong>Grid View:</strong> Compact table overview</li>
+                            <li><strong>Floor Plan:</strong> Visual restaurant layout</li>
+                            <li><strong>List View:</strong> Detailed table information</li>
+                            <li><strong>Server View:</strong> Assigned tables only</li>
+                            <li>Color-coded status indicators</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>⚡ Quick Actions</h4>
+                        <ul>
+                            <li>One-click table status changes</li>
+                            <li>Rapid order taking from floor plan</li>
+                            <li>Table merging for large parties</li>
+                            <li>Emergency table reassignment</li>
+                            <li>Table notes and special requests</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <div class="quick-actions">
+        <!-- Room Service Section -->
+        <div id="room-service" class="help-section">
+            <h2>🏨 Room Service - Hotel Mode Features</h2>
+            
+            <div class="feature-spotlight">
+                <div class="spotlight-header">
+                    <div class="spotlight-icon">🛎️</div>
+                    <h3>Comprehensive Hotel & Room Service</h3>
+                </div>
+                <p>Complete hospitality management system for hotels, motels, and accommodation businesses.</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🏨 Hotel Management</h4>
+                        <ul>
+                            <li>Room-based order management</li>
+                            <li>Guest information integration</li>
+                            <li>Check-in/check-out coordination</li>
+                            <li>Room status tracking (occupied/vacant/maintenance)</li>
+                            <li>Multi-building and floor management</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>🚚 Room Service Delivery</h4>
+                        <ul>
+                            <li>Room-to-room delivery tracking</li>
+                            <li>Delivery time estimation</li>
+                            <li>Special dietary requirements</li>
+                            <li>Room service menu customization</li>
+                            <li>Contactless delivery options</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>📱 Guest Experience</h4>
+                        <ul>
+                            <li>In-room ordering systems</li>
+                            <li>QR code menu access</li>
+                            <li>Digital room service requests</li>
+                            <li>Real-time order status updates</li>
+                            <li>Guest feedback collection</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>⏰ Operations Management</h4>
+                        <ul>
+                            <li>Housekeeping coordination</li>
+                            <li>Room service scheduling</li>
+                            <li>Staff assignment optimization</li>
+                            <li>Inventory management for room amenities</li>
+                            <li>Guest billing integration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Business Management Section -->
+        <div id="business-management" class="help-section">
+            <h2>🏢 Business Administration & Settings</h2>
+            
+            <div class="feature-spotlight">
+                <div class="spotlight-header">
+                    <div class="spotlight-icon">⚙️</div>
+                    <h3>Complete Business Control</h3>
+                </div>
+                <p>Comprehensive tools for managing all aspects of your business operations.</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>👥 Staff Management</h4>
+                        <ul>
+                            <li>Employee profiles and contact information</li>
+                            <li>Role assignment and permissions</li>
+                            <li>Shift scheduling and time tracking</li>
+                            <li>Performance metrics and reviews</li>
+                            <li>Payroll integration and reporting</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>🏪 Multi-Property Management</h4>
+                        <ul>
+                            <li>Unlimited property addition</li>
+                            <li>Cross-property staff assignment</li>
+                            <li>Centralized menu and pricing control</li>
+                            <li>Property-specific analytics</li>
+                            <li>Bulk settings and updates</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>📊 Analytics & Reporting</h4>
+                        <ul>
+                            <li>Real-time sales dashboards</li>
+                            <li>Inventory and cost analysis</li>
+                            <li>Staff performance reports</li>
+                            <li>Customer behavior insights</li>
+                            <li>Financial reporting and tax integration</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>🔧 System Configuration</h4>
+                        <ul>
+                            <li>Payment processor setup</li>
+                            <li>Tax and pricing configuration</li>
+                            <li>Printer and hardware integration</li>
+                            <li>Backup and data management</li>
+                            <li>Security and access controls</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Troubleshooting Section -->
+        <div id="troubleshooting" class="help-section">
+            <h2>⚠️ Troubleshooting & Common Issues</h2>
+            
+            <div class="troubleshooting-grid">
+                <div class="trouble-card">
+                    <h3>🔑 Login Issues</h3>
+                    <div class="problem">
+                        <h4>Problem: Can't log in with Staff ID</h4>
+                        <ul>
+                            <li>Verify Staff ID with your manager</li>
+                            <li>Check if your account is active</li>
+                            <li>Ensure you're using the correct business</li>
+                            <li>Try clearing browser cache</li>
+                        </ul>
+                    </div>
+                    <div class="problem">
+                        <h4>Problem: Forgot Business ID</h4>
+                        <ul>
+                            <li>Check your registration email</li>
+                            <li>Contact system administrator</li>
+                            <li>Use account recovery options</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="trouble-card">
+                    <h3>💻 POS Interface Issues</h3>
+                    <div class="problem">
+                        <h4>Problem: Slow performance</h4>
+                        <ul>
+                            <li>Close unused browser tabs</li>
+                            <li>Clear browser cache and cookies</li>
+                            <li>Check internet connection speed</li>
+                            <li>Restart the application</li>
+                        </ul>
+                    </div>
+                    <div class="problem">
+                        <h4>Problem: Orders not saving</h4>
+                        <ul>
+                            <li>Check network connectivity</li>
+                            <li>Verify user permissions</li>
+                            <li>Contact technical support</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="trouble-card">
+                    <h3>🖨️ Hardware Issues</h3>
+                    <div class="problem">
+                        <h4>Problem: Printer not working</h4>
+                        <ul>
+                            <li>Check printer power and connection</li>
+                            <li>Verify paper and ink levels</li>
+                            <li>Test printer with other applications</li>
+                            <li>Restart printer and computer</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="trouble-card">
+                    <h3>📱 Mobile & Browser Issues</h3>
+                    <div class="problem">
+                        <h4>Problem: Layout looks broken</h4>
+                        <ul>
+                            <li>Update to latest browser version</li>
+                            <li>Enable JavaScript in browser</li>
+                            <li>Disable browser extensions</li>
+                            <li>Try a different browser</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+          <div id="contact" class="contact-info">
+            <h2>📞 Support & Contact Information</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🏢 For Business Owners</h3>
+                    <p><strong>System Administration & Setup:</strong></p>
+                    <ul>
+                        <li><strong>Account Setup:</strong> Complete business registration assistance</li>
+                        <li><strong>System Configuration:</strong> Menu setup, payment processing, staff management</li>
+                        <li><strong>Multi-Property Management:</strong> Adding locations, centralized control</li>
+                        <li><strong>Analytics & Reporting:</strong> Custom reports, performance insights</li>
+                        <li><strong>Integration Support:</strong> Third-party systems, APIs, hardware</li>
+                    </ul>
+                    
+                    <p><strong>Emergency Support:</strong></p>
+                    <ul>
+                        <li>Payment processing issues</li>
+                        <li>System downtime or connectivity problems</li>
+                        <li>Data recovery and backup assistance</li>
+                        <li>Security and access control issues</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>👥 For Staff Members</h3>
+                    <p><strong>Daily Operations Support:</strong></p>
+                    <ul>
+                        <li><strong>Login Issues:</strong> Staff ID problems, account activation</li>
+                        <li><strong>POS Training:</strong> Order taking, payment processing, table management</li>
+                        <li><strong>Role-Specific Help:</strong> Server, cashier, kitchen, manager functions</li>
+                        <li><strong>Mobile Usage:</strong> Tablet and smartphone optimization</li>
+                    </ul>
+                    
+                    <p><strong>Quick Help:</strong></p>
+                    <ul>
+                        <li>Contact your manager or business owner</li>
+                        <li>Check with senior staff members</li>
+                        <li>Use the built-in help tooltips in the POS interface</li>
+                        <li>Review this comprehensive help guide</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-spotlight">
+                <div class="spotlight-header">
+                    <div class="spotlight-icon">🚀</div>
+                    <h3>Getting Started Resources</h3>
+                </div>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>📚 Documentation</h4>
+                        <ul>
+                            <li><strong>Quick Start Guide:</strong> 5-minute setup walkthrough</li>
+                            <li><strong>Video Tutorials:</strong> Step-by-step visual guides</li>
+                            <li><strong>Feature Guides:</strong> Detailed functionality explanations</li>
+                            <li><strong>Best Practices:</strong> Industry-tested workflows</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>🛠️ Technical Support</h4>
+                        <ul>
+                            <li><strong>System Requirements:</strong> Browser compatibility, hardware specs</li>
+                            <li><strong>Network Setup:</strong> Internet connectivity, security settings</li>
+                            <li><strong>Troubleshooting:</strong> Common issues and solutions</li>
+                            <li><strong>Updates:</strong> System updates and new features</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>📱 Training & Onboarding</h4>
+                        <ul>
+                            <li><strong>Staff Training:</strong> Role-based training programs</li>
+                            <li><strong>Manager Training:</strong> Advanced features and administration</li>
+                            <li><strong>Owner Training:</strong> Business management and analytics</li>
+                            <li><strong>Ongoing Education:</strong> Advanced tips and best practices</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4>⚡ Self-Service Options</h4>
+                        <ul>
+                            <li><strong>Interactive Tutorials:</strong> Built-in system guidance</li>
+                            <li><strong>Help Center:</strong> Searchable knowledge base</li>
+                            <li><strong>Community Forum:</strong> User discussions and tips</li>
+                            <li><strong>FAQ Database:</strong> Common questions and answers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-card" style="margin-top: 2rem; background: #f0f9ff; border-color: #93c5fd;">
+                <h3>🎯 Ready to Get Started?</h3>
+                <p><strong>Choose your path:</strong></p>
+                <ul>
+                    <li><strong>New Business Owner:</strong> Register your business and set up your first location</li>
+                    <li><strong>Existing Business:</strong> Add additional properties or update your configuration</li>
+                    <li><strong>Staff Member:</strong> Get your connection code from your manager and create your account</li>
+                    <li><strong>System Administrator:</strong> Access advanced configuration and multi-business management</li>
+                </ul>
+                
+                <p><strong>Need immediate assistance?</strong></p>
+                <ul>
+                    <li>Try the step-by-step registration process</li>
+                    <li>Check your browser settings and internet connection</li>
+                    <li>Clear your browser cache and cookies</li>
+                    <li>Ensure JavaScript is enabled in your browser</li>
+                    <li>Try accessing the system from a different device or browser</li>
+                </ul>
+            </div>
+        </div>
+          <div class="quick-actions">
             <button class="quick-action" onclick="goBack()">
                 <span class="icon">← </span>
                 <strong>Back to Login</strong>
@@ -267,6 +908,27 @@
                 <strong>Register Now</strong>
                 <div>Create new account</div>
             </button>
+            
+            <button class="quick-action" onclick="scrollToSection('getting-started')">
+                <span class="icon">🚀</span>
+                <strong>Quick Start</strong>
+                <div>Jump to getting started</div>
+            </button>
+            
+            <button class="quick-action" onclick="scrollToSection('troubleshooting')">
+                <span class="icon">🔧</span>
+                <strong>Fix Issues</strong>
+                <div>Troubleshooting guide</div>
+            </button>
+        </div>
+        
+        <!-- Footer -->
+        <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e5e7eb; color: #6b7280;">
+            <p><strong>Zentry POS System</strong> - Complete Point of Sale Solution</p>
+            <p>Comprehensive restaurant, retail, and hospitality management platform</p>
+            <p style="font-size: 0.9rem; margin-top: 1rem;">
+                Built for businesses of all sizes • Cloud-based • Mobile-optimized • Secure
+            </p>
         </div>
     </div>
     
