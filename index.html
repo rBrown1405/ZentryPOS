@@ -4,12 +4,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zentry POS - Welcome</title>
     <link rel="stylesheet" href="styles/main.css">
+    <script src="js/base-url.js"></script>
 </head>
 <body>    <div class="welcome-container">
         <div class="logo-container">        <div class="logo">Z</div>
-        </div>          <h1 class="welcome-title">Welcome to <span class="highlight">Zentry</span></h1>
-        <p class="welcome-subtitle">Point of Sale System - Version 1.0</p>
-        <p class="welcome-description">Ready to begin your POS journey?</p>        <div class="quick-access">            <button class="start-button primary" onclick="window.location.href='auth/login.html'">
+        </div>          <h1 class="welcome-title">Welcome to <span class="highlight">Zentry</span></h1>        <p class="welcome-subtitle">Point of Sale System - Version 1.0</p>
+        <p class="welcome-description">Ready to begin your POS journey?</p>        <div class="quick-access">            <button class="start-button primary" id="getStartedButton">
                 <span class="button-text">🚀 Get Started</span>
             </button>
         </div>
@@ -36,9 +36,30 @@
         <div class="loading-content">            <div class="loading-logo">Z</div>
             <div class="loading-spinner"></div>
             <p class="loading-text">Loading Zentry POS...</p>
-        </div>
-    </div>
+        </div>    </div>
 
     <script src="js/app.js"></script>
+    <script>
+        // Direct navigation handler for the Get Started button
+        document.addEventListener('DOMContentLoaded', function() {
+            var getStartedButton = document.getElementById('getStartedButton');
+            if (getStartedButton) {
+                getStartedButton.addEventListener('click', function() {
+                    // First, try using the navigateTo function if available
+                    if (typeof navigateTo === 'function') {
+                        navigateTo('auth/login.html');
+                    } else {
+                        // Fallback to direct navigation
+                        var baseUrl = '';
+                        // Check if we're on GitHub Pages
+                        if (window.location.hostname === 'rbrown1405.github.io') {
+                            baseUrl = '/ZentryPOS';
+                        }
+                        window.location.href = baseUrl + '/auth/login.html';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
