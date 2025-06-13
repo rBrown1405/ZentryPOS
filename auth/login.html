@@ -34,10 +34,10 @@
         <div class="logo-container">
             <div class="logo">Z</div>
         </div>
-        <h1 class="login-title">Sign In to <span class="highlight">Zentry</span></h1><div class="login-form">            <div class="login-tabs">
-                <button class="tab-button active" onclick="switchLoginTab('staff')">Staff Login</button>
-                <button class="tab-button" onclick="switchLoginTab('company')">Company Login</button>
-                <button class="tab-button" onclick="switchLoginTab('superadmin')">Super Admin</button>
+        <h1 class="login-title">Sign In to <span class="highlight">Zentry</span></h1>        <div class="login-form">            <div class="login-tabs">
+                <button class="tab-button active">Staff Login</button>
+                <button class="tab-button">Company Login</button>
+                <button class="tab-button">Super Admin</button>
             </div>
 
             <!-- Staff Login Form -->
@@ -46,8 +46,7 @@
                     <label for="staffId" class="input-label">Staff ID</label>
                     <input type="text" id="staffId" placeholder="Enter your Staff ID" autocomplete="off">
                     <p class="input-hint">Your unique staff identifier provided by your manager</p>
-                </div>
-                <button class="login-button" onclick="handleStaffLogin()">
+                </div>                <button class="login-button" id="staffLoginButton">
                     <span class="button-text">Staff Sign In</span>
                     <span class="button-icon">→</span>
                 </button>
@@ -58,7 +57,7 @@
                     <input type="text" id="businessId" placeholder="Enter your Business ID" autocomplete="off">
                     <p class="input-hint">Your unique business identifier</p>
                 </div>
-                <button class="login-button" onclick="handleCompanyLogin()">
+                <button class="login-button" id="companyLoginButton">
                     <span class="button-text">Company Sign In</span>
                     <span class="button-icon">→</span>
                 </button>
@@ -74,7 +73,7 @@
                     <label for="adminPassword" class="input-label">Super Admin Password</label>
                     <input type="password" id="adminPassword" placeholder="Enter super admin password" autocomplete="off">
                 </div>
-                <button class="login-button" onclick="handleSuperAdminLogin()">
+                <button class="login-button" id="superAdminLoginButton">
                     <span class="button-text">Super Admin Sign In</span>
                     <span class="button-icon">🔐</span>
                 </button>

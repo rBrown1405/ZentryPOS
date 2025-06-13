@@ -85,28 +85,19 @@ function switchLoginTab(tabName) {
 // Setup login form handlers
 function setupLoginFormHandlers() {
     // Staff login button
-    var staffLoginBtn = document.querySelector('#staffLogin .login-button');
-    if (staffLoginBtn) {
-        staffLoginBtn.addEventListener('click', function() {
-            alert('Staff login functionality is not available in this demo.');
-        });
-    }
+    document.getElementById('staffLoginButton')?.addEventListener('click', function() {
+        alert('Staff login functionality is not available in this demo.');
+    });
     
     // Company login button
-    var companyLoginBtn = document.querySelector('#companyLogin .login-button');
-    if (companyLoginBtn) {
-        companyLoginBtn.addEventListener('click', function() {
-            alert('Company login functionality is not available in this demo.');
-        });
-    }
+    document.getElementById('companyLoginButton')?.addEventListener('click', function() {
+        alert('Company login functionality is not available in this demo.');
+    });
     
     // Super Admin login button
-    var superAdminLoginBtn = document.querySelector('#superadminLogin .login-button');
-    if (superAdminLoginBtn) {
-        superAdminLoginBtn.addEventListener('click', function() {
-            alert('Super Admin login functionality is not available in this demo.');
-        });
-    }
+    document.getElementById('superAdminLoginButton')?.addEventListener('click', function() {
+        alert('Super Admin login functionality is not available in this demo.');
+    });
     
     // Need Help button
     var helpButton = document.querySelector('.help-button');
