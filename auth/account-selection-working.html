@@ -2,17 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zentry POS - Account Selection</title>
-    <link rel="stylesheet" href="../styles/main.css            // Business option click
-            document.getElementById('businessOption').addEventListener('click', function() {
-                navigateWithTransition('business-registration-working.html');
-            });
-            
-            // Staff option click
-            document.getElementById('staffOption').addEventListener('click', function() {
-                navigateWithTransition('staff-registration-working.html');
-            });cript src="../js/base-url.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Zentry POS - Account Selection</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="../js/base-url.js"></script>
     <style>
         /* Account Selection Specific Styles */
         .account-selection-content {
@@ -220,15 +212,9 @@
         </div>
     </div>
 
-    <script>
-        // Navigation function
+    <script>        // Navigation function
         function navigateWithTransition(url) {
             console.log('Navigating to:', url);
-            
-            if (url === 'help.html') {
-                alert('Help functionality is coming soon!');
-                return;
-            }
             
             // Handle GitHub Pages paths
             let finalUrl = url;
@@ -247,20 +233,18 @@
             document.getElementById('backButton').addEventListener('click', function() {
                 navigateWithTransition('login.html');
             });
-            
-            // Business option
+              // Business option
             document.getElementById('businessOption').addEventListener('click', function() {
-                navigateWithTransition('business-registration.html');
+                navigateWithTransition('business-registration-working.html');
             });
             
             // Staff option
             document.getElementById('staffOption').addEventListener('click', function() {
-                navigateWithTransition('staff-registration.html');
+                navigateWithTransition('staff-registration-working.html');
             });
-            
-            // Help button
+              // Help button
             document.getElementById('helpButton').addEventListener('click', function() {
-                alert('Help: Choose "Business Owner" if you own/manage a business, or "Staff Member" if you work for an existing business.');
+                navigateWithTransition('help.html');
             });
             
             // Initialize animations

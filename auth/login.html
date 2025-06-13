@@ -111,9 +111,17 @@
                     }
                     alert('Fallback mode: Super Admin login\n\nThis would normally authenticate and redirect to the super admin dashboard.');
                 };
-                
-                window.handleHelpClick = function() {
-                    alert('Help system coming soon!\n\nContact your administrator for assistance.');
+                  window.handleHelpClick = function() {
+                    // Try to navigate to help page first
+                    try {
+                        let baseUrl = '';
+                        if (window.location.hostname === 'rbrown1405.github.io') {
+                            baseUrl = '/ZentryPOS';
+                        }
+                        window.location.href = baseUrl + '/auth/help.html';
+                    } catch (error) {
+                        alert('Help: Choose your login type and enter your credentials.\n\nStaff Login: Use your Staff ID\nCompany Login: Use your Business ID\nSuper Admin: Use admin credentials\n\nContact your administrator for assistance.');
+                    }
                 };
                 
                 window.handleRegistrationClick = function() {

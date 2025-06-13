@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support - Zentry POS</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="../js/base-url.js"></script>
+    <style>
+        .help-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .help-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .help-title {
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .help-subtitle {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+        
+        .help-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f9fafb;
+            border-radius: 12px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .help-section h2 {
+            color: #1f2937;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .help-section ul {
+            margin: 0.5rem 0 1rem 1.5rem;
+            color: #374151;
+        }
+        
+        .help-section li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .quick-action {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .quick-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .quick-action .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .contact-info {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .back-button {
+            background: #6b7280;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        
+        .back-button:hover {
+            background: #4b5563;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-background">
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+    </div>
+    
+    <div class="help-container">
+        <button class="back-button" onclick="goBack()">← Back to Login</button>
+        
+        <div class="help-header">
+            <h1 class="help-title">🔧 Help & Support</h1>
+            <p class="help-subtitle">Everything you need to know about using Zentry POS</p>
+        </div>
+        
+        <div class="quick-actions">
+            <button class="quick-action" onclick="scrollToSection('business-owners')">
+                <span class="icon">🏢</span>
+                <strong>Business Owners</strong>
+                <div>Setup & Management</div>
+            </button>
+            
+            <button class="quick-action" onclick="scrollToSection('staff-members')">
+                <span class="icon">👥</span>
+                <strong>Staff Members</strong>
+                <div>Getting Started</div>
+            </button>
+            
+            <button class="quick-action" onclick="scrollToSection('login-help')">
+                <span class="icon">🔑</span>
+                <strong>Login Issues</strong>
+                <div>Troubleshooting</div>
+            </button>
+            
+            <button class="quick-action" onclick="scrollToSection('contact')">
+                <span class="icon">💬</span>
+                <strong>Get Support</strong>
+                <div>Contact Information</div>
+            </button>
+        </div>
+        
+        <div id="business-owners" class="help-section">
+            <h2>🏢 For Business Owners</h2>
+            <p><strong>Setting up your business account:</strong></p>
+            <ul>
+                <li>Click "New Business / Staff Registration" on the login page</li>
+                <li>Select "Business Owner" to create a new business account</li>
+                <li>Fill in your company information and first property details</li>
+                <li>You'll receive a Business ID for future logins</li>
+            </ul>
+            
+            <p><strong>Managing your establishment:</strong></p>
+            <ul>
+                <li>Add and manage multiple properties (restaurants, hotels, retail stores)</li>
+                <li>Create staff accounts and assign roles (Manager, Server, Cashier, Kitchen)</li>
+                <li>Set up menu items, tables, and floor plans</li>
+                <li>Access detailed analytics and reports</li>
+                <li>Configure system settings and permissions</li>
+            </ul>
+        </div>
+        
+        <div id="staff-members" class="help-section">
+            <h2>👥 For Staff Members</h2>
+            <p><strong>Joining a business:</strong></p>
+            <ul>
+                <li>Ask your manager for a connection code or Staff ID</li>
+                <li>Click "New Business / Staff Registration" on the login page</li>
+                <li>Select "Staff Member" and enter your connection code</li>
+                <li>Complete your profile information</li>
+            </ul>
+            
+            <p><strong>Using the POS system:</strong></p>
+            <ul>
+                <li>Use your Staff ID for quick login</li>
+                <li>Access features based on your assigned role</li>
+                <li>Process orders, manage tables, and handle payments</li>
+                <li>View your assigned tasks and responsibilities</li>
+            </ul>
+        </div>
+        
+        <div id="login-help" class="help-section">
+            <h2>🔑 Login Types & Troubleshooting</h2>
+            
+            <p><strong>Staff Login:</strong></p>
+            <ul>
+                <li>Enter your Staff ID (provided by your manager)</li>
+                <li>Quick access to POS interface</li>
+                <li>Role-based permissions automatically applied</li>
+            </ul>
+            
+            <p><strong>Company Login:</strong></p>
+            <ul>
+                <li>Enter your Business ID (received during registration)</li>
+                <li>Full management access to your business</li>
+                <li>Access to admin dashboard and settings</li>
+            </ul>
+            
+            <p><strong>Super Admin Login:</strong></p>
+            <ul>
+                <li>System administration access</li>
+                <li>Requires special credentials</li>
+                <li>For system maintenance only</li>
+            </ul>
+            
+            <p><strong>Common Issues:</strong></p>
+            <ul>
+                <li><strong>Forgot your ID?</strong> Contact your business owner or system administrator</li>
+                <li><strong>Access denied?</strong> Check with your manager about your account status</li>
+                <li><strong>Page not loading?</strong> Try refreshing or check your internet connection</li>
+            </ul>
+        </div>
+        
+        <div id="contact" class="contact-info">
+            <h2>💬 Need More Help?</h2>
+            <p><strong>For immediate assistance:</strong></p>
+            <ul>
+                <li><strong>Staff Members:</strong> Contact your business owner or manager</li>
+                <li><strong>Business Owners:</strong> Contact your system administrator</li>
+                <li><strong>Technical Issues:</strong> Check the system status or contact support</li>
+            </ul>
+            
+            <p><strong>Self-Help Resources:</strong></p>
+            <ul>
+                <li>Try the registration process step-by-step</li>
+                <li>Check your internet connection</li>
+                <li>Clear your browser cache and try again</li>
+                <li>Make sure JavaScript is enabled in your browser</li>
+            </ul>
+        </div>
+        
+        <div class="quick-actions">
+            <button class="quick-action" onclick="goBack()">
+                <span class="icon">← </span>
+                <strong>Back to Login</strong>
+                <div>Return to sign in</div>
+            </button>
+            
+            <button class="quick-action" onclick="goToRegistration()">
+                <span class="icon">➕</span>
+                <strong>Register Now</strong>
+                <div>Create new account</div>
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Highlight the section briefly
+                element.style.background = '#dbeafe';
+                setTimeout(() => {
+                    element.style.background = '#f9fafb';
+                }, 2000);
+            }
+        }
+        
+        function goBack() {
+            try {
+                // Check if there's a previous page
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    // Navigate to login page
+                    let baseUrl = '';
+                    if (window.location.hostname === 'rbrown1405.github.io') {
+                        baseUrl = '/ZentryPOS';
+                    }
+                    window.location.href = baseUrl + '/auth/login.html';
+                }
+            } catch (error) {
+                console.error('Navigation error:', error);
+                // Fallback to login page
+                window.location.href = 'login.html';
+            }
+        }
+        
+        function goToRegistration() {
+            try {
+                let baseUrl = '';
+                if (window.location.hostname === 'rbrown1405.github.io') {
+                    baseUrl = '/ZentryPOS';
+                }
+                window.location.href = baseUrl + '/auth/account-selection-working.html';
+            } catch (error) {
+                console.error('Navigation error:', error);
+                window.location.href = 'account-selection-working.html';
+            }
+        }
+        
+        // Add smooth scrolling for anchor links
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if there's a hash in the URL
+            if (window.location.hash) {
+                const targetId = window.location.hash.substring(1);
+                setTimeout(() => {
+                    scrollToSection(targetId);
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>

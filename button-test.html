@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test - Zentry POS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #3b82f6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            font-size: 14px;
+        }
+        .test-button:hover {
+            background: #2563eb;
+        }
+        .success {
+            color: #059669;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc2626;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Login Button Test Page</h1>
+    <p>This page tests the login button functionality with fallback mode.</p>
+    
+    <div class="test-section">
+        <h2>Direct Function Tests</h2>
+        <p>Testing if the functions are available and callable:</p>
+        
+        <!-- Mock input fields for testing -->
+        <input type="text" id="staffId" placeholder="Test Staff ID" value="TEST123" style="margin: 5px; padding: 8px;">
+        <input type="text" id="businessId" placeholder="Test Business ID" value="BIZ456" style="margin: 5px; padding: 8px;"><br>
+        <input type="text" id="adminUsername" placeholder="Admin Username" value="admin" style="margin: 5px; padding: 8px;">
+        <input type="password" id="adminPassword" placeholder="Admin Password" value="password" style="margin: 5px; padding: 8px;">
+        
+        <br><br>
+        
+        <button class="test-button" onclick="testFunction('handleStaffLogin')">Test Staff Login</button>
+        <button class="test-button" onclick="testFunction('handleCompanyLogin')">Test Company Login</button>
+        <button class="test-button" onclick="testFunction('handleSuperAdminLogin')">Test Super Admin Login</button>
+        <button class="test-button" onclick="testFunction('handleHelpClick')">Test Help Button</button>
+        <button class="test-button" onclick="testFunction('handleRegistrationClick')">Test Registration Button</button>
+        
+        <div id="testResults" style="margin-top: 1rem; padding: 1rem; background: #f9f9f9; border-radius: 4px;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Navigation Test</h2>
+        <p>Test navigation to login page and back:</p>
+        <button class="test-button" onclick="window.open('auth/login.html', '_blank')">Open Login Page</button>
+        <button class="test-button" onclick="window.location.href='auth/login.html'">Go to Login Page</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Script Loading Status</h2>
+        <div id="scriptStatus"></div>
+        <button class="test-button" onclick="checkScripts()">Check Script Status</button>
+    </div>
+
+    <!-- Load the same scripts as login page -->
+    <script src="assets/js/api-manager.js" onerror="console.warn('API Manager failed to load')"></script>
+    <script src="js/app-integration.js" onerror="console.warn('App Integration failed to load')"></script>
+    <script src="js/base-url.js" onerror="console.warn('Base URL script failed to load')"></script>
+
+    <script>
+        let results = [];
+        
+        function testFunction(functionName) {
+            const resultDiv = document.getElementById('testResults');
+            
+            try {
+                if (typeof window[functionName] === 'function') {
+                    results.push(`✅ ${functionName} - Function exists and is callable`);
+                    
+                    // Try to call the function
+                    window[functionName]();
+                    results.push(`✅ ${functionName} - Function executed successfully`);
+                } else {
+                    results.push(`❌ ${functionName} - Function not found`);
+                }
+            } catch (error) {
+                results.push(`⚠️ ${functionName} - Error: ${error.message}`);
+            }
+            
+            resultDiv.innerHTML = results.join('<br>');
+        }
+        
+        function checkScripts() {
+            const statusDiv = document.getElementById('scriptStatus');
+            let status = [];
+            
+            // Check if classes and functions are available
+            if (typeof ApiManager !== 'undefined') {
+                status.push('<span class="success">✅ ApiManager loaded</span>');
+            } else {
+                status.push('<span class="error">❌ ApiManager not loaded</span>');
+            }
+            
+            if (typeof AppIntegration !== 'undefined') {
+                status.push('<span class="success">✅ AppIntegration loaded</span>');
+            } else {
+                status.push('<span class="error">❌ AppIntegration not loaded</span>');
+            }
+            
+            if (typeof window.appIntegration !== 'undefined') {
+                status.push('<span class="success">✅ appIntegration instance available</span>');
+            } else {
+                status.push('<span class="error">❌ appIntegration instance not available</span>');
+            }
+            
+            // Check specific functions
+            const functions = ['handleStaffLogin', 'handleCompanyLogin', 'handleSuperAdminLogin', 'handleHelpClick', 'handleRegistrationClick'];
+            functions.forEach(func => {
+                if (typeof window[func] === 'function') {
+                    status.push(`<span class="success">✅ ${func} available</span>`);
+                } else {
+                    status.push(`<span class="error">❌ ${func} not available</span>`);
+                }
+            });
+            
+            statusDiv.innerHTML = status.join('<br>');
+        }
+        
+        // Auto-check on load
+        window.addEventListener('load', function() {
+            setTimeout(checkScripts, 1000);
+        });
+        
+        // Add fallback functions similar to login page
+        setTimeout(function() {
+            if (typeof handleStaffLogin === 'undefined') {
+                console.log('Activating fallback functions...');
+                
+                window.handleStaffLogin = function() {
+                    alert('FALLBACK: Staff Login - ID: ' + (document.getElementById('staffId')?.value || 'No ID'));
+                };
+                
+                window.handleCompanyLogin = function() {
+                    alert('FALLBACK: Company Login - Business ID: ' + (document.getElementById('businessId')?.value || 'No ID'));
+                };
+                
+                window.handleSuperAdminLogin = function() {
+                    alert('FALLBACK: Super Admin Login - Username: ' + (document.getElementById('adminUsername')?.value || 'No Username'));
+                };
+                
+                window.handleHelpClick = function() {
+                    alert('FALLBACK: Help system activated');
+                };
+                
+                window.handleRegistrationClick = function() {
+                    alert('FALLBACK: Registration system activated');
+                };
+            }
+        }, 1500);
+    </script>
+</body>
+</html>

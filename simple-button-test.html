@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Button Test - Zentry POS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #f0f0f0;
+        }
+        .test-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 8px;
+            font-size: 16px;
+            min-width: 200px;
+        }
+        .test-button:hover {
+            background: #2563eb;
+        }
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 4px;
+            border-left: 4px solid #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔍 Simple Button Test</h1>
+        <p>This page tests basic button onclick functionality without complex scripts.</p>
+        
+        <h2>Test Buttons:</h2>
+        
+        <button class="test-button" onclick="testStaffLogin()">
+            Test Staff Login
+        </button>
+        
+        <button class="test-button" onclick="testCompanyLogin()">
+            Test Company Login
+        </button>
+        
+        <button class="test-button" onclick="testSuperAdminLogin()">
+            Test Super Admin Login
+        </button>
+        
+        <button class="test-button" onclick="testHelpButton()">
+            Test Help Button
+        </button>
+        
+        <button class="test-button" onclick="testRegistrationButton()">
+            Test Registration Button
+        </button>
+        
+        <button class="test-button" onclick="testTabSwitching()">
+            Test Tab Switching
+        </button>
+        
+        <button class="test-button" onclick="navigateToLogin()">
+            Navigate to Login Page
+        </button>
+        
+        <div id="results" class="result">
+            <strong>Results:</strong><br>
+            Click the buttons above to test functionality.
+        </div>
+    </div>
+
+    <script>
+        function updateResults(message) {
+            const resultsDiv = document.getElementById('results');
+            const timestamp = new Date().toLocaleTimeString();
+            resultsDiv.innerHTML += `<br>[${timestamp}] ${message}`;
+        }
+        
+        function testStaffLogin() {
+            updateResults('✅ Staff Login button clicked - Function working!');
+            alert('Staff Login Test: Button click registered successfully!\n\nThis simulates entering a Staff ID and logging in.');
+        }
+        
+        function testCompanyLogin() {
+            updateResults('✅ Company Login button clicked - Function working!');
+            alert('Company Login Test: Button click registered successfully!\n\nThis simulates entering a Business ID and logging in.');
+        }
+        
+        function testSuperAdminLogin() {
+            updateResults('✅ Super Admin Login button clicked - Function working!');
+            alert('Super Admin Login Test: Button click registered successfully!\n\nThis simulates entering admin credentials and logging in.');
+        }
+        
+        function testHelpButton() {
+            updateResults('✅ Help button clicked - Function working!');
+            alert('Help Button Test: Button click registered successfully!\n\nThis would normally show help information or contact details.');
+        }
+        
+        function testRegistrationButton() {
+            updateResults('✅ Registration button clicked - Function working!');
+            alert('Registration Button Test: Button click registered successfully!\n\nThis would normally navigate to the registration page.');
+        }
+        
+        function testTabSwitching() {
+            updateResults('✅ Tab switching test clicked - Function working!');
+            alert('Tab Switching Test: Button click registered successfully!\n\nThis would normally switch between Staff, Company, and Super Admin tabs.');
+        }
+        
+        function navigateToLogin() {
+            updateResults('🔄 Navigating to login page...');
+            // Use both methods to ensure compatibility
+            try {
+                // GitHub Pages path
+                if (window.location.hostname === 'rbrown1405.github.io') {
+                    window.location.href = '/ZentryPOS/auth/login.html';
+                } else {
+                    // Local development path
+                    window.location.href = 'auth/login.html';
+                }
+            } catch (error) {
+                alert('Navigation test failed: ' + error.message);
+                updateResults('❌ Navigation failed: ' + error.message);
+            }
+        }
+        
+        // Test auto-load functionality
+        window.addEventListener('load', function() {
+            updateResults('🚀 Page loaded successfully - JavaScript is working!');
+            updateResults('📍 Hostname: ' + window.location.hostname);
+            updateResults('📍 Full URL: ' + window.location.href);
+        });
+    </script>
+</body>
+</html>

@@ -426,16 +426,131 @@ async function handleSuperAdminLogin() {
  */
 function handleHelpClick() {
     try {
-        // For now, show a simple alert. In production, you'd navigate to a help page
-        if (window.appIntegration) {
-            window.appIntegration.showNotification('Help system coming soon! Contact your administrator for assistance.', 'info');
+        // Navigate to help page (create if doesn't exist)
+        if (window.appIntegration && typeof window.appIntegration.navigateTo === 'function') {
+            window.appIntegration.navigateTo('auth/help.html');
         } else {
-            alert('Help system coming soon! Contact your administrator for assistance.');
+            // Fallback navigation
+            let baseUrl = '';
+            if (window.location.hostname === 'rbrown1405.github.io') {
+                baseUrl = '/ZentryPOS';
+            }
+            window.location.href = baseUrl + '/auth/help.html';
         }
     } catch (error) {
         console.error('Help click error:', error);
-        alert('Help system temporarily unavailable.');
+        // If help page doesn't exist, show comprehensive help in a modal
+        showHelpModal();
     }
+}
+
+/**
+ * Show help modal with comprehensive information
+ */
+function showHelpModal() {
+    const helpContent = `
+        <div style="max-width: 600px; text-align: left;">
+            <h2 style="color: #3b82f6; margin-bottom: 1rem;">🔧 Zentry POS Help</h2>
+            
+            <h3 style="color: #1f2937; margin: 1.5rem 0 0.5rem 0;">🏢 For Business Owners:</h3>
+            <ul style="margin: 0.5rem 0 1rem 1.5rem;">
+                <li>Create a business account to manage your establishment</li>
+                <li>Set up multiple properties (restaurants, hotels, retail stores)</li>
+                <li>Manage staff accounts and permissions</li>
+                <li>Access analytics and reports</li>
+            </ul>
+            
+            <h3 style="color: #1f2937; margin: 1.5rem 0 0.5rem 0;">👥 For Staff Members:</h3>
+            <ul style="margin: 0.5rem 0 1rem 1.5rem;">
+                <li>Join an existing business with a connection code</li>
+                <li>Access POS interface based on your role</li>
+                <li>Process orders and manage tables</li>
+                <li>Quick login with your Staff ID</li>
+            </ul>
+            
+            <h3 style="color: #1f2937; margin: 1.5rem 0 0.5rem 0;">🔑 Login Types:</h3>
+            <ul style="margin: 0.5rem 0 1rem 1.5rem;">
+                <li><strong>Staff Login:</strong> Use your Staff ID for quick access</li>
+                <li><strong>Company Login:</strong> Use your Business ID for management access</li>
+                <li><strong>Super Admin:</strong> System administration access</li>
+            </ul>
+            
+            <h3 style="color: #1f2937; margin: 1.5rem 0 0.5rem 0;">❓ Need More Help?</h3>
+            <p style="margin: 0.5rem 0;">
+                Contact your system administrator or business owner for assistance with:
+                <br>• Account setup and registration
+                <br>• Staff ID or Business ID issues
+                <br>• System configuration
+                <br>• Technical support
+            </p>
+            
+            <div style="margin-top: 2rem; padding: 1rem; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                <strong>💡 Quick Tip:</strong> If you're a new user, start by selecting your account type in the registration process.
+            </div>
+        </div>
+    `;
+    
+    // Create modal overlay
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+        padding: 1rem;
+    `;
+    
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = `
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        max-width: 700px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        position: relative;
+    `;
+    
+    const closeButton = document.createElement('button');
+    closeButton.innerHTML = '✕';
+    closeButton.style.cssText = `
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: #f3f4f6;
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    `;
+    
+    closeButton.addEventListener('click', () => {
+        document.body.removeChild(modal);
+    });
+    
+    modalContent.innerHTML = helpContent;
+    modalContent.appendChild(closeButton);
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+    
+    // Close on background click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
 }
 
 /**
