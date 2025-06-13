@@ -78,8 +78,7 @@ class ApiManager {
 
     /**
      * Authentication methods
-     */
-    async login(credentials) {
+     */    async login(credentials) {
         try {
             const response = await this.makeRequest('/auth/login', {
                 method: 'POST',
@@ -94,6 +93,50 @@ class ApiManager {
             throw new Error('Login failed');
         } catch (error) {
             console.error('Login error:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Staff login method
+     */
+    async staffLogin(staffId) {
+        try {
+            const response = await this.makeRequest('/auth/staff-login', {
+                method: 'POST',
+                body: JSON.stringify({ staffId }),
+            });
+
+            if (response && response.token) {
+                this.setAuthToken(response.token, response.refreshToken);
+                return response;
+            }
+
+            throw new Error('Staff login failed');
+        } catch (error) {
+            console.error('Staff login error:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Super admin login method
+     */
+    async superAdminLogin(adminKey) {
+        try {
+            const response = await this.makeRequest('/auth/superadmin-login', {
+                method: 'POST',
+                body: JSON.stringify({ adminKey }),
+            });
+
+            if (response && response.token) {
+                this.setAuthToken(response.token, response.refreshToken);
+                return response;
+            }
+
+            throw new Error('Super admin login failed');
+        } catch (error) {
+            console.error('Super admin login error:', error);
             throw error;
         }
     }
@@ -150,13 +193,15 @@ class ApiManager {
 
     isAuthenticated() {
         return !!this.authToken;
-    }
-
-    /**
+    }    /**
      * User management methods
      */
     async getCurrentUser() {
         return await this.makeRequest('/auth/me');
+    }
+
+    async getUsers() {
+        return await this.makeRequest('/users');
     }
 
     async updateUser(userId, userData) {

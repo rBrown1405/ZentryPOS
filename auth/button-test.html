@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test - Zentry POS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .test-button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: #007cba;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .test-button:hover {
+            background: #005a87;
+        }
+        .test-button.success {
+            background: #28a745;
+        }
+        .test-button.error {
+            background: #dc3545;
+        }
+        .input-group {
+            margin: 15px 0;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .result.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔧 Zentry POS - Button Functionality Test</h1>
+        <p>This page tests the basic button functionality to ensure clicks are working correctly.</p>
+        
+        <!-- Test 1: Basic onclick test -->
+        <h3>Test 1: Basic Button Click</h3>
+        <button class="test-button" onclick="basicTest()">Click Me - Basic Test</button>
+        <div id="basic-result"></div>
+        
+        <!-- Test 2: Staff Login simulation -->
+        <h3>Test 2: Staff Login Simulation</h3>
+        <div class="input-group">
+            <input type="text" id="staffId" placeholder="Enter Staff ID (e.g., STAFF001)">
+        </div>
+        <button class="test-button" onclick="testStaffLogin()">Test Staff Login</button>
+        <div id="staff-result"></div>
+        
+        <!-- Test 3: Company Login simulation -->
+        <h3>Test 3: Company Login Simulation</h3>
+        <div class="input-group">
+            <input type="text" id="businessId" placeholder="Enter Business ID (e.g., BIZ123)">
+        </div>
+        <button class="test-button" onclick="testCompanyLogin()">Test Company Login</button>
+        <div id="company-result"></div>
+        
+        <!-- Test 4: Navigation test -->
+        <h3>Test 4: Navigation Test</h3>
+        <button class="test-button" onclick="testNavigation()">Test Help Navigation</button>
+        <div id="nav-result"></div>
+        
+        <!-- Test 5: Load actual login functions -->
+        <h3>Test 5: Load Real Login Functions</h3>
+        <button class="test-button" onclick="loadLoginFunctions()">Load and Test Real Functions</button>
+        <div id="load-result"></div>
+        
+        <hr style="margin: 30px 0;">
+        
+        <!-- Quick access to actual login page -->
+        <h3>Access Real Login Page</h3>
+        <button class="test-button" onclick="goToLogin()">Go to Actual Login Page</button>
+        
+        <!-- Check console output -->
+        <h3>Console Output</h3>
+        <div style="background: #f8f8f8; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto;" id="console-output"></div>
+    </div>
+
+    <script>
+        // Capture console output
+        let consoleLog = '';
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        console.log = function(...args) {
+            consoleLog += '[LOG] ' + args.join(' ') + '\n';
+            updateConsole();
+            originalLog.apply(console, args);
+        };
+        
+        console.error = function(...args) {
+            consoleLog += '[ERROR] ' + args.join(' ') + '\n';
+            updateConsole();
+            originalError.apply(console, args);
+        };
+        
+        console.warn = function(...args) {
+            consoleLog += '[WARN] ' + args.join(' ') + '\n';
+            updateConsole();
+            originalWarn.apply(console, args);
+        };
+        
+        function updateConsole() {
+            document.getElementById('console-output').textContent = consoleLog;
+        }
+        
+        // Test functions
+        function basicTest() {
+            console.log('Basic test clicked');
+            const result = document.getElementById('basic-result');
+            result.innerHTML = '<div class="result success">✓ Basic button click works perfectly!</div>';
+            result.querySelector('.result').classList.add('success');
+        }
+        
+        function testStaffLogin() {
+            console.log('Staff login test clicked');
+            const staffId = document.getElementById('staffId').value.trim();
+            const result = document.getElementById('staff-result');
+            
+            if (!staffId) {
+                result.innerHTML = '<div class="result error">✗ Please enter a Staff ID</div>';
+                return;
+            }
+            
+            result.innerHTML = `<div class="result success">✓ Staff login test successful with ID: ${staffId}</div>`;
+            console.log('Staff login would proceed with ID:', staffId);
+        }
+        
+        function testCompanyLogin() {
+            console.log('Company login test clicked');
+            const businessId = document.getElementById('businessId').value.trim();
+            const result = document.getElementById('company-result');
+            
+            if (!businessId) {
+                result.innerHTML = '<div class="result error">✗ Please enter a Business ID</div>';
+                return;
+            }
+            
+            result.innerHTML = `<div class="result success">✓ Company login test successful with ID: ${businessId}</div>`;
+            console.log('Company login would proceed with ID:', businessId);
+        }
+        
+        function testNavigation() {
+            console.log('Navigation test clicked');
+            const result = document.getElementById('nav-result');
+            
+            try {
+                // Test navigation logic without actually navigating
+                let baseUrl = '';
+                if (window.location.hostname === 'rbrown1405.github.io') {
+                    baseUrl = '/ZentryPOS';
+                }
+                const helpUrl = baseUrl + '/auth/help.html';
+                
+                result.innerHTML = `<div class="result success">✓ Navigation would go to: ${helpUrl}</div>`;
+                console.log('Navigation test successful. Would go to:', helpUrl);
+            } catch (error) {
+                result.innerHTML = `<div class="result error">✗ Navigation error: ${error.message}</div>`;
+                console.error('Navigation test failed:', error);
+            }
+        }
+        
+        function loadLoginFunctions() {
+            console.log('Loading real login functions...');
+            const result = document.getElementById('load-result');
+            
+            // Create a script element to load the app integration
+            const script1 = document.createElement('script');
+            script1.src = '../js/api-manager.js';
+            script1.onload = function() {
+                console.log('API Manager loaded successfully');
+                
+                const script2 = document.createElement('script');
+                script2.src = '../js/app-integration.js';
+                script2.onload = function() {
+                    console.log('App Integration loaded successfully');
+                    
+                    // Test if functions are available
+                    setTimeout(() => {
+                        let status = '';
+                        if (typeof handleStaffLogin === 'function') {
+                            status += '✓ handleStaffLogin available<br>';
+                        } else {
+                            status += '✗ handleStaffLogin not available<br>';
+                        }
+                        
+                        if (typeof window.appIntegration !== 'undefined') {
+                            status += '✓ appIntegration instance available<br>';
+                        } else {
+                            status += '✗ appIntegration instance not available<br>';
+                        }
+                        
+                        result.innerHTML = `<div class="result success">${status}</div>`;
+                    }, 500);
+                };
+                script2.onerror = function() {
+                    console.error('Failed to load App Integration');
+                    result.innerHTML = '<div class="result error">✗ Failed to load App Integration</div>';
+                };
+                document.head.appendChild(script2);
+            };
+            script1.onerror = function() {
+                console.error('Failed to load API Manager');
+                result.innerHTML = '<div class="result error">✗ Failed to load API Manager</div>';
+            };
+            document.head.appendChild(script1);
+        }
+        
+        function goToLogin() {
+            console.log('Going to login page...');
+            window.location.href = 'login.html';
+        }
+        
+        // Initialize
+        console.log('Button test page loaded successfully');
+        console.log('Current location:', window.location.href);
+    </script>
+</body>
+</html>
