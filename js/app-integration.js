@@ -10,19 +10,7 @@ class AppIntegration {
     }
 
     /**
-     *        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: ${colors[type] || colors.info};
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 10000;
-            font-weight: 500;
-            max-width: 400px;
-        `;PI Manager with proper URL
+     * Initialize API Manager with proper URL
      */
     initializeApiManager() {
         // Determine API URL based on environment
